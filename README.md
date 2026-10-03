@@ -19,7 +19,7 @@ El proyecto utiliza una arquitectura descentralizada para separar la mensajería
                                                      │ (Cloudflare Tunnel / TLS)
                                                      ▼
                           ┌────────────────────────────────────────────────────────┐
-                          │                 LOCAL (Servidor Universidad)            │
+                          │                 LOCAL (Servidor Universidad)           │
                           │  • Gateway de Autenticación                            │
                           │  • LLM Local (vLLM / Ollama + Qwen2.5 / Llama 3.1)     │
                           │  • Base de Datos de Inventario (PostgreSQL + Redis)    │
