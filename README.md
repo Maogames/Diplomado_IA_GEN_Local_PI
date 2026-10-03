@@ -9,7 +9,7 @@ Sistema inteligente de gestión e inventario de herramientas/piezas para laborat
 ## Arquitectura del Sistema
 
 El proyecto utiliza una arquitectura descentralizada para separar la mensajería en la nube de la lógica e inferencia local en el servidor de la universidad:
-
+```text
 ┌─────────────────┐       ┌────────────────────────────────────────────────────────┐
 │  Estudiantes /  │       │                      NUBE (Cloud)                      │
 │ Administradores │ ────> │  • Meta WhatsApp Cloud API (Webhook)                   │
@@ -23,6 +23,7 @@ El proyecto utiliza una arquitectura descentralizada para separar la mensajería
                           │  • LLM Local (vLLM / Ollama + Qwen2.5 / Llama 3.1)     │
                           │  • Base de Datos de Inventario (PostgreSQL + Redis)    │
                           └────────────────────────────────────────────────────────┘
+```
 ## Componentes del Modelo Híbrido
 
 El sistema combina la escalabilidad de la nube para la gestión de mensajería con la potencia y privacidad de un servidor local para el almacenamiento e inferencia de Inteligencia Artificial.
