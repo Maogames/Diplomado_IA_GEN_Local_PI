@@ -1,12 +1,12 @@
 # Diplomado_IA_GEN_Local_PI
 
-# 🔬 Agente de IA Híbrido para Gestión de Laboratorio vía WhatsApp
+# Agente de IA Híbrido para Gestión de Laboratorio vía WhatsApp
 
 Sistema inteligente de gestión e inventario de herramientas/piezas para laboratorios universitarios. Se comunica a través de **WhatsApp Cloud API**, implementando un modelo **híbrido (Nube/Local)** que garantiza privacidad de datos, ejecución de LLM sin costos recurrentes por token y un control estricto de accesos.
 
 ---
 
-## 📐 Arquitectura del Sistema
+## Arquitectura del Sistema
 
 El proyecto utiliza una arquitectura descentralizada para separar la mensajería en la nube de la lógica e inferencia local en el servidor de la universidad:
 
