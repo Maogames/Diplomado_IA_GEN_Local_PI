@@ -12,7 +12,7 @@ El proyecto utiliza una arquitectura descentralizada para separar la mensajería
 ```text
 ┌─────────────────┐       ┌────────────────────────────────────────────────────────┐
 │  Estudiantes /  │       │                      NUBE (Cloud)                      │
-│ Administradores │ ────> │  • Meta WhatsApp Cloud API (Webhook)                   │
+│ Administradores │ ────> │  • Meta WhatsApp Web                                   │
 └─────────────────┘       │  • Middleware Orquestador (FastAPI / Node.js)          │
                           └──────────────────────────┬─────────────────────────────┘
                                                      │ (Cloudflare Tunnel / TLS)
