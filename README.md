@@ -2,7 +2,7 @@
 
 # Agente de IA Híbrido para Gestión de Laboratorio vía WhatsApp
 
-Sistema inteligente de gestión e inventario de herramientas/piezas para laboratorios universitarios. Se comunica a través de **WhatsApp Cloud API**, implementando un modelo **híbrido (Nube/Local)** que garantiza privacidad de datos, ejecución de LLM sin costos recurrentes por token y un control estricto de accesos.
+Sistema inteligente de gestión e inventario de herramientas/piezas para laboratorios universitarios. Se comunica a través de **WhatsApp Web API**, implementando un modelo **híbrido (Nube/Local)** que garantiza privacidad de datos, ejecución de LLM sin costos recurrentes por token y un control estricto de accesos.
 
 ---
 
