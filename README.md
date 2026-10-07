@@ -20,7 +20,7 @@ El proyecto utiliza una arquitectura descentralizada para separar la mensajería
                           ┌────────────────────────────────────────────────────────┐
                           │                 LOCAL (Servidor Universidad)           │
                           │  • Gateway de Autenticación                            │
-                          │  • LLM Local (vLLM / Ollama + Qwen2.5 / Llama 3.1)     │
+                          │  • LLM Local (Ollama + Qwen2.5/3 / Llama 3.1)     │
                           │  • Base de Datos de Inventario (PostgreSQL + Redis)    │
                           └────────────────────────────────────────────────────────┘
 ```
@@ -49,8 +49,8 @@ Capacitada para estar siempre en línea, procesar la comunicación externa y gar
 Infraestructura alojada dentro de las instalaciones de la universidad para garantizar la privacidad de los datos y el costo $0 en procesamiento de inferencias.
 
 * **Modelo LLM Local (Inferencia Local):**
-  * **Motor de Inferencia:** Ejecutado sobre **Ollama** o **vLLM** aprovechando la aceleración por hardware mediante GPU local (*ej. NVIDIA RTX 3090/4090 o servidores dedicados A100/L40*).
-  * **Modelo Recomendado:** **Qwen 2.5 (7B / 14B)** o **Llama 3.1 (8B)**, afinados para seguimiento de instrucciones en español y soporte nativo de *Function Calling* (capacidad para invocar consultas a bases de datos y herramientas externas).
+  * **Motor de Inferencia:** Ejecutado sobre **Ollama** o **vLLM** aprovechando la aceleración por hardware mediante GPU local
+  * **Modelo Recomendado:** **Qwen 2.5 (7B/4B)** o **Llama 3.1 (4B)**, afinados para seguimiento de instrucciones en español y soporte nativo de *Function Calling* (capacidad para invocar consultas a bases de datos y herramientas externas).
 * **Gestión de Datos y Persistencia:**
   * **PostgreSQL:** Base de datos relacional encargada de gestionar el catálogo de piezas, inventario en tiempo real, registro de préstamos, estudiantes y administradores.
   * **Redis:** Caché en memoria para mantener la memoria del historial activo de cada conversación y almacenar tokens de sesión/OTP temporales.
