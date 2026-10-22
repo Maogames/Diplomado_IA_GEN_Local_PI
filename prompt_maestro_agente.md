@@ -1,7 +1,5 @@
 # Prompt maestro — Módulo 1: planteamiento del problema
 
-> **Uso previsto:** Copie este prompt completo en ChatGPT (capa gratuita). Después, pegue o cargue el PDF del proyecto integrador cuando la plataforma lo permita. El texto está diseñado para producir un documento académico formal en español, no una conversación ni una lista de ideas.
-
 ---
 
 ## Prompt para copiar y pegar
