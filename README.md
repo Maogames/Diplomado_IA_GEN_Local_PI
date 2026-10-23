@@ -54,3 +54,29 @@ Infraestructura alojada dentro de las instalaciones de la universidad para garan
 * **Gestión de Datos y Persistencia:**
   * **PostgreSQL:** Base de datos relacional encargada de gestionar el catálogo de piezas, inventario en tiempo real, registro de préstamos, estudiantes y administradores.
   * **Redis:** Caché en memoria para mantener la memoria del historial activo de cada conversación y almacenar tokens de sesión/OTP temporales.
+
+---
+
+## Desarrollo
+
+El repositorio contiene dos aplicaciones. El modelo LLM y el canal de WhatsApp se integrarán en una fase posterior sobre esta API.
+
+| Carpeta | Qué es | Cómo se ejecuta |
+|---|---|---|
+| [`backend/`](backend/README.md) | API autorizada de inventario y préstamos (FastAPI, PostgreSQL o SQLite) | `uvicorn app.main:app --reload` |
+| [`frontend/`](frontend/README.md) | Panel web del laboratorio (React + Vite) | `npm run dev` |
+
+Inicio rápido (dos terminales):
+
+```bash
+# 1. Backend
+cd backend && python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements-dev.txt
+python -m app.seed          # datos sintéticos; contraseña de prueba Demo1234!
+uvicorn app.main:app --reload
+
+# 2. Frontend
+cd frontend && npm install && npm run dev   # http://localhost:5173
+```
+
+Con Docker (backend + PostgreSQL): `docker compose up --build`.
