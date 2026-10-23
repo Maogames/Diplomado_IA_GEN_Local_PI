@@ -1,70 +1,23 @@
 # Diplomado_IA_GEN_Local_PI
 
-# Agente de IA Híbrido para Gestión de Laboratorio vía WhatsApp
+Proyecto integrador del Diplomado en IA Generativa Local: **agente técnico para un laboratorio universitario** que consulta guías autorizadas, gestiona el inventario de práctica y los préstamos mediante una API con permisos por rol, y genera reportes trazables. El modelo de lenguaje se ejecuta localmente.
 
-Sistema inteligente de gestión e inventario de herramientas/piezas para laboratorios universitarios. Se comunica a través de **WhatsApp Web API**, implementando un modelo **híbrido (Nube/Local)** que garantiza privacidad de datos, ejecución de LLM sin costos recurrentes por token y un control estricto de accesos.
+## Documentación
 
----
-
-## Arquitectura del Sistema
-
-El proyecto utiliza una arquitectura descentralizada para separar la mensajería en la nube de la lógica e inferencia local en el servidor de la universidad:
-```text
-┌─────────────────┐       ┌────────────────────────────────────────────────────────┐
-│  Estudiantes /  │       │                      NUBE (Cloud)                      │
-│ Administradores │ ────> │  • Meta WhatsApp Web                                   │
-└─────────────────┘       │  • Middleware Orquestador (FastAPI / Node.js)          │
-                          └──────────────────────────┬─────────────────────────────┘
-                                                     │ (Cloudflare Tunnel / TLS)
-                                                     ▼
-                          ┌────────────────────────────────────────────────────────┐
-                          │                 LOCAL (Servidor Universidad)           │
-                          │  • Gateway de Autenticación                            │
-                          │  • LLM Local (Ollama + Qwen2.5/3 / Llama 3.1)     │
-                          │  • Base de Datos de Inventario (PostgreSQL + Redis)    │
-                          └────────────────────────────────────────────────────────┘
-```
-## Componentes del Modelo Híbrido
-
-El sistema combina la escalabilidad de la nube para la gestión de mensajería con la potencia y privacidad de un servidor local para el almacenamiento e inferencia de Inteligencia Artificial.
-
----
-
-### Nube (Messaging & Entry Point)
-
-Capacitada para estar siempre en línea, procesar la comunicación externa y garantizar la seguridad de las conexiones recibidas.
-
-* **WhatsApp Cloud API (Meta Graph API):** 
-  Vía oficial para la comunicación bidireccional. Se encarga de recibir los mensajes de estudiantes y administradores en tiempo real para redirigirlos mediante un **Webhook** hacia la infraestructura del servidor.
-* **Middleware Orquestador (Cloud Gateway):** 
-  Servicio ligero desarrollado en **Python (FastAPI)** o **Node.js (Express/NestJS)**, alojado en un proveedor cloud (*AWS Lambda, GCP, DigitalOcean o Vercel*). 
-  * Recibe el *payload* entrante del Webhook.
-  * Valida la firma criptográfica (`HMAC-SHA256`) enviada por Meta para verificar el origen.
-  * Controla y reenvía las peticiones de forma segura hacia la red local.
-
----
-
-### B. Servidor Local (Laboratorio / Universidad)
-
-Infraestructura alojada dentro de las instalaciones de la universidad para garantizar la privacidad de los datos y el costo $0 en procesamiento de inferencias.
-
-* **Modelo LLM Local (Inferencia Local):**
-  * **Motor de Inferencia:** Ejecutado sobre **Ollama** o **vLLM** aprovechando la aceleración por hardware mediante GPU local
-  * **Modelo Recomendado:** **Qwen 2.5 (7B/4B)** o **Llama 3.1 (4B)**, afinados para seguimiento de instrucciones en español y soporte nativo de *Function Calling* (capacidad para invocar consultas a bases de datos y herramientas externas).
-* **Gestión de Datos y Persistencia:**
-  * **PostgreSQL:** Base de datos relacional encargada de gestionar el catálogo de piezas, inventario en tiempo real, registro de préstamos, estudiantes y administradores.
-  * **Redis:** Caché en memoria para mantener la memoria del historial activo de cada conversación y almacenar tokens de sesión/OTP temporales.
-
----
+| Documento | Contenido |
+|---|---|
+| [`Modulo1/`](Modulo1/) | Planteamiento del problema, propuesta de arquitectura (Sesión 3) y referencias |
+| [`backend/README.md`](backend/README.md) | API de inventario y préstamos: roles, endpoints y controles de riesgo |
+| [`frontend/README.md`](frontend/README.md) | Panel web del laboratorio |
 
 ## Desarrollo
 
-El repositorio contiene dos aplicaciones. El modelo LLM y el canal de WhatsApp se integrarán en una fase posterior sobre esta API.
-
 | Carpeta | Qué es | Cómo se ejecuta |
 |---|---|---|
-| [`backend/`](backend/README.md) | API autorizada de inventario y préstamos (FastAPI, PostgreSQL o SQLite) | `uvicorn app.main:app --reload` |
-| [`frontend/`](frontend/README.md) | Panel web del laboratorio (React + Vite) | `npm run dev` |
+| `backend/` | API autorizada de inventario y préstamos (FastAPI, PostgreSQL o SQLite) | `uvicorn app.main:app --reload` |
+| `frontend/` | Panel web del laboratorio (React + Vite) | `npm run dev` |
+
+El modelo LLM local y el canal de WhatsApp se integrarán sobre esta API en una fase posterior.
 
 Inicio rápido (dos terminales):
 
@@ -79,4 +32,4 @@ uvicorn app.main:app --reload
 cd frontend && npm install && npm run dev   # http://localhost:5173
 ```
 
-Con Docker (backend + PostgreSQL): `docker compose up --build`.
+Con Docker (backend + PostgreSQL): `docker compose up --build`. En equipos de 8 GB se recomienda desarrollar con SQLite, sin Docker.
