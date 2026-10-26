@@ -91,6 +91,7 @@ function FormUsuario({ u, onListo }: { u?: Usuario; onListo: () => void }) {
 
   async function enviar(ev: FormEvent) {
     ev.preventDefault();
+    if (enviando) return;
     setEnviando(true);
     setError(null);
     const body: Record<string, unknown> = {
@@ -145,7 +146,7 @@ function FormUsuario({ u, onListo }: { u?: Usuario; onListo: () => void }) {
       )}
       <Aviso>{error}</Aviso>
       <div className="acciones-form">
-        <button className="btn btn-primario" disabled={enviando}>{u ? "Guardar cambios" : "Crear usuario"}</button>
+        <button type="submit" className="btn btn-primario" aria-busy={enviando}>{enviando ? "Guardando…" : u ? "Guardar cambios" : "Crear usuario"}</button>
       </div>
     </form>
   );

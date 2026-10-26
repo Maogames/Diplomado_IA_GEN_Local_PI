@@ -52,6 +52,7 @@ export function Reportes() {
 
   async function generar(ev: FormEvent) {
     ev.preventDefault();
+    if (ocupado) return;
     setOcupado(true);
     setError(null);
     try {
@@ -123,7 +124,7 @@ export function Reportes() {
                 </label>
               </>
             )}
-            <button className="btn btn-primario" disabled={ocupado}>Generar reporte</button>
+            <button type="submit" className="btn btn-primario" aria-busy={ocupado}>{ocupado ? "Generando…" : "Generar reporte"}</button>
             <button type="button" className="btn btn-sutil" onClick={csv}>Descargar CSV</button>
           </form>
           <Aviso>{error}</Aviso>

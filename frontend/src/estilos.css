@@ -150,6 +150,7 @@ a { color: var(--placa); text-underline-offset: 2px; }
   border: 1px solid transparent; cursor: pointer; text-decoration: none; white-space: nowrap;
 }
 .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+.btn[aria-busy="true"] { cursor: progress; opacity: 0.8; }
 .btn-primario { background: var(--placa); color: var(--sobre-placa); }
 .btn-primario:hover:not(:disabled) { filter: brightness(1.1); }
 .btn-sutil { background: transparent; color: var(--tinta); border-color: var(--linea); }
@@ -426,9 +427,10 @@ textarea { resize: vertical; }
 .reportes-lista button[aria-pressed="true"] { background: var(--superficie); border-color: var(--placa); }
 .rl-nombre { display: block; font-weight: 600; }
 .rl-desc { display: block; font-size: 0.82rem; color: var(--tinta-suave); }
+/* Encabezado de constancia: la trazabilidad se lee como los datos de un acta, entre dos filetes. */
 .reporte-traza {
-  display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; margin: 0 0 1rem; padding: 0.8rem 1rem;
-  border-left: 3px solid var(--placa); background: var(--placa-fondo); border-radius: 0 var(--r-control) var(--r-control) 0;
+  display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; margin: 0 0 1rem; padding: 0.7rem 0;
+  border-top: 1px solid var(--linea); border-bottom: 1px solid var(--linea);
   font-size: 0.88rem;
 }
 .reporte-traza dt { color: var(--tinta-suave); font-size: 0.8rem; }
