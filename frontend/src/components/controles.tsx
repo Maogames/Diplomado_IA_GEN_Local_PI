@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import type { Elemento, EstadoPrestamo } from "../types";
-import { NOMBRE_ESTADO } from "../util";
+import { NOMBRE_ESTADO } from "../formato";
 
 export function Codigo({ children }: { children: ReactNode }) {
   return <span className="codigo">{children}</span>;
@@ -112,15 +112,13 @@ export function Campo({ etiqueta, ayuda, children }: { etiqueta: string; ayuda?:
   );
 }
 
-// ---------- Notificaciones breves ----------
-
 const ContextoAvisos = createContext<(texto: string) => void>(() => {});
 
 export function ProveedorAvisos({ children }: { children: ReactNode }) {
   const [texto, setTexto] = useState<string | null>(null);
   const t = useRef<number>(undefined);
-  const mostrar = useCallback((x: string) => {
-    setTexto(x);
+  const mostrar = useCallback((mensaje: string) => {
+    setTexto(mensaje);
     window.clearTimeout(t.current);
     t.current = window.setTimeout(() => setTexto(null), 3500);
   }, []);

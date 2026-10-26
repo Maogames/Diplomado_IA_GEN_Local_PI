@@ -1,10 +1,10 @@
 import { api } from "../api";
 import { ListaPrestamos } from "../components/FilaPrestamo";
 import { Cabecera } from "../components/Marco";
-import { Aviso, Cargando, Codigo, Nivel, Vacio } from "../components/ui";
+import { Aviso, Cargando, Codigo, Nivel, Vacio } from "../components/controles";
 import { useSesion } from "../sesion";
 import type { Elemento, Pagina, Prestamo, Resumen } from "../types";
-import { useCarga } from "../util";
+import { useCarga } from "../carga";
 
 function Bandeja({ titulo, vacio, cargar, filtro }: {
   titulo: string;
@@ -12,8 +12,8 @@ function Bandeja({ titulo, vacio, cargar, filtro }: {
   cargar: () => Promise<Pagina<Prestamo>>;
   filtro?: (p: Prestamo) => boolean;
 }) {
-  const { datos, error, cargando } = useCarga(cargar, []);
-  const lista = (datos?.items ?? []).filter(filtro ?? (() => true));
+  const { datos: pagina, error, cargando } = useCarga(cargar, []);
+  const lista = (pagina?.items ?? []).filter(filtro ?? (() => true));
   return (
     <section className="bandeja">
       <h2>
@@ -26,14 +26,14 @@ function Bandeja({ titulo, vacio, cargar, filtro }: {
 }
 
 function Indicadores() {
-  const { datos } = useCarga(() => api<Resumen>("/reportes/resumen"), []);
-  if (!datos) return null;
+  const { datos: resumen } = useCarga(() => api<Resumen>("/reportes/resumen"), []);
+  if (!resumen) return null;
   const filas: [string, number, string?][] = [
-    ["Unidades prestadas ahora", datos.unidades_prestadas],
-    ["Préstamos vencidos", datos.prestamos_vencidos, datos.prestamos_vencidos ? "alarma" : undefined],
-    ["Solicitudes por aprobar", datos.prestamos_por_estado.pendiente],
-    ["Aprobados por entregar", datos.prestamos_por_estado.aprobado],
-    ["Elementos bajo el mínimo", datos.elementos_bajo_minimo, datos.elementos_bajo_minimo ? "led" : undefined],
+    ["Unidades prestadas ahora", resumen.unidades_prestadas],
+    ["Préstamos vencidos", resumen.prestamos_vencidos, resumen.prestamos_vencidos ? "alarma" : undefined],
+    ["Solicitudes por aprobar", resumen.prestamos_por_estado.pendiente],
+    ["Aprobados por entregar", resumen.prestamos_por_estado.aprobado],
+    ["Elementos bajo el mínimo", resumen.elementos_bajo_minimo, resumen.elementos_bajo_minimo ? "led" : undefined],
   ];
   return (
     <section className="panel">
@@ -51,19 +51,19 @@ function Indicadores() {
 }
 
 function StockBajo() {
-  const { datos } = useCarga(
+  const { datos: bajos } = useCarga(
     () => api<Pagina<Elemento>>("/elementos", { params: { solo_bajo_minimo: true, limite: 8 } }),
     [],
   );
-  if (!datos) return null;
+  if (!bajos) return null;
   return (
     <section className="panel">
       <h2>Stock bajo el mínimo</h2>
-      {datos.items.length === 0 ? (
+      {bajos.items.length === 0 ? (
         <p className="nota">Todos los elementos están por encima de su mínimo.</p>
       ) : (
         <ul className="lista-stock">
-          {datos.items.map((e) => (
+          {bajos.items.map((e) => (
             <li key={e.id}>
               <span className="ls-nombre">
                 <Codigo>{e.codigo}</Codigo> {e.nombre}
@@ -73,7 +73,7 @@ function StockBajo() {
           ))}
         </ul>
       )}
-      {datos.total > datos.items.length && <a href="#/inventario">Ver los {datos.total} elementos</a>}
+      {bajos.total > bajos.items.length && <a href="#/inventario">Ver los {bajos.total} elementos</a>}
     </section>
   );
 }

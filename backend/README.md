@@ -59,7 +59,7 @@ reportes y registros de auditoría (49 pruebas).
 | Gestionar usuarios | | | | | ✓ |
 
 Reglas adicionales: nadie aprueba su propia solicitud; los estudiantes solo ven sus préstamos; el
-administrador gestiona cuentas pero no opera el inventario. La matriz está en `app/security.py`.
+administrador gestiona cuentas pero no opera el inventario. La matriz está en `app/seguridad.py`.
 
 ## Ciclo de un préstamo
 
@@ -77,11 +77,11 @@ El stock disponible se descuenta al **entregar** (cuando el elemento sale físic
 | Control | Dónde | Riesgo |
 |---|---|---|
 | Toda variación de stock pasa por un único servicio que bloquea la fila y guarda el saldo resultante | `services/inventario.py` | R-04 |
-| Encabezado `Idempotency-Key` en solicitudes de préstamo y movimientos: un reintento no duplica la operación | `idempotency.py` | R-04 |
-| Auditoría de operaciones, denegaciones de permiso y errores de negocio, con canal (`X-Canal`: web, whatsapp, agente) e id de petición | `audit.py`, `main.py` | R-07 |
+| Encabezado `Idempotency-Key` en solicitudes de préstamo y movimientos: un reintento no duplica la operación | `idempotencia.py` | R-04 |
+| Auditoría de operaciones, denegaciones de permiso y errores de negocio, con canal (`X-Canal`: web, whatsapp, agente) e id de petición | `auditoria.py`, `main.py` | R-07 |
 | Errores internos no exponen detalles; devuelven un `request_id` para rastrearlos | `main.py` | R-06 |
 | Bloqueo temporal tras 5 intentos fallidos de inicio de sesión; mismo mensaje si el correo no existe | `routers/auth.py` | R-03 |
-| Contraseñas con PBKDF2-SHA256 (600 000 iteraciones, biblioteca estándar) | `security.py` | R-03 |
+| Contraseñas con PBKDF2-SHA256 (600 000 iteraciones, biblioteca estándar) | `seguridad.py` | R-03 |
 | Reportes con autor, fecha, parámetros y fuente; su generación queda auditada | `routers/reportes.py` | R-01, R-07 |
 | Datos de prueba sintéticos; el seed no corre si `LAB_ENTORNO=produccion` | `seed.py` | R-06 |
 

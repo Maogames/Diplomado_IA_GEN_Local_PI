@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { Aviso, Campo } from "../components/ui";
+import { Aviso, Campo } from "../components/controles";
 import { useSesion } from "../sesion";
 
 // Cuentas sintéticas que crea `python -m app.seed`. Solo se muestran en desarrollo.

@@ -16,9 +16,9 @@ from fastapi.responses import StreamingResponse
 from sqlalchemy import func, select
 from sqlalchemy.orm import selectinload
 
-from ..audit import registrar
+from ..auditoria import registrar
 from ..config import get_settings
-from ..deps import DB, requiere
+from ..dependencias import DB, requiere
 from ..models import (
     Elemento,
     EstadoPrestamo,

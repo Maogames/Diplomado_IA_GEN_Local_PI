@@ -1,7 +1,7 @@
 import type { Prestamo } from "../types";
-import { fecha } from "../util";
+import { fecha } from "../formato";
 import { Ciclo } from "./Ciclo";
-import { Codigo, Estado } from "./ui";
+import { Codigo, Estado } from "./controles";
 
 export function FilaPrestamo({ p }: { p: Prestamo }) {
   return (

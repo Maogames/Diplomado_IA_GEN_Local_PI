@@ -4,9 +4,9 @@ from fastapi import APIRouter, HTTPException, Query, Request
 from sqlalchemy import func, or_, select
 from sqlalchemy.orm import selectinload
 
-from .. import idempotency
-from ..audit import registrar
-from ..deps import DB, UsuarioActual, requiere
+from .. import idempotencia
+from ..auditoria import registrar
+from ..dependencias import DB, requiere
 from ..models import Categoria, Elemento, Movimiento, TipoMovimiento, Usuario
 from ..schemas import (
     CategoriaEntrada,
@@ -23,7 +23,6 @@ from ..services.inventario import aplicar_movimiento, bloquear_elemento
 router = APIRouter(tags=["Inventario"])
 
 
-# ---------- Categorías ----------
 
 
 @router.get("/categorias", response_model=list[CategoriaSalida])
@@ -32,10 +31,10 @@ def listar_categorias(db: DB, _: Usuario = requiere("inventario:leer")):
 
 
 @router.post("/categorias", response_model=CategoriaSalida, status_code=201)
-def crear_categoria(datos: CategoriaEntrada, request: Request, db: DB, u: Usuario = requiere("inventario:escribir")):
-    if db.scalar(select(Categoria).where(func.lower(Categoria.nombre) == datos.nombre.lower())):
+def crear_categoria(nueva: CategoriaEntrada, request: Request, db: DB, u: Usuario = requiere("inventario:escribir")):
+    if db.scalar(select(Categoria).where(func.lower(Categoria.nombre) == nueva.nombre.lower())):
         raise HTTPException(409, "Ya existe una categoría con ese nombre.")
-    cat = Categoria(**datos.model_dump())
+    cat = Categoria(**nueva.model_dump())
     db.add(cat)
     db.flush()
     registrar(db, request, u, "crear_categoria", recurso="categoria", recurso_id=cat.id)
@@ -43,7 +42,6 @@ def crear_categoria(datos: CategoriaEntrada, request: Request, db: DB, u: Usuari
     return cat
 
 
-# ---------- Elementos ----------
 
 
 def _consulta_elementos(q, categoria_id, solo_disponibles, solo_bajo_minimo, incluir_inactivos):
@@ -107,18 +105,18 @@ def obtener_elemento(elemento_id: int, db: DB, _: Usuario = requiere("inventario
 
 
 @router.post("/elementos", response_model=ElementoSalida, status_code=201)
-def crear_elemento(datos: ElementoCrear, request: Request, db: DB, u: Usuario = requiere("inventario:escribir")):
-    if db.scalar(select(Elemento).where(Elemento.codigo == datos.codigo)):
-        raise HTTPException(409, f"Ya existe un elemento con el código {datos.codigo}.")
-    if datos.categoria_id and db.get(Categoria, datos.categoria_id) is None:
+def crear_elemento(nuevo: ElementoCrear, request: Request, db: DB, u: Usuario = requiere("inventario:escribir")):
+    if db.scalar(select(Elemento).where(Elemento.codigo == nuevo.codigo)):
+        raise HTTPException(409, f"Ya existe un elemento con el código {nuevo.codigo}.")
+    if nuevo.categoria_id and db.get(Categoria, nuevo.categoria_id) is None:
         raise HTTPException(422, "La categoría no existe.")
-    e = Elemento(**datos.model_dump(exclude={"cantidad_inicial"}), cantidad_total=0, cantidad_disponible=0)
+    e = Elemento(**nuevo.model_dump(exclude={"cantidad_inicial"}), cantidad_total=0, cantidad_disponible=0)
     db.add(e)
     db.flush()
-    if datos.cantidad_inicial:
-        aplicar_movimiento(db, e, TipoMovimiento.entrada, datos.cantidad_inicial, u, motivo="Registro inicial")
+    if nuevo.cantidad_inicial:
+        aplicar_movimiento(db, e, TipoMovimiento.entrada, nuevo.cantidad_inicial, u, motivo="Registro inicial")
     registrar(db, request, u, "crear_elemento", recurso="elemento", recurso_id=e.id,
-              detalle={"codigo": e.codigo, "cantidad_inicial": datos.cantidad_inicial})
+              detalle={"codigo": e.codigo, "cantidad_inicial": nuevo.cantidad_inicial})
     db.commit()
     db.refresh(e)
     return e
@@ -126,10 +124,10 @@ def crear_elemento(datos: ElementoCrear, request: Request, db: DB, u: Usuario = 
 
 @router.patch("/elementos/{elemento_id}", response_model=ElementoSalida)
 def actualizar_elemento(
-    elemento_id: int, datos: ElementoActualizar, request: Request, db: DB, u: Usuario = requiere("inventario:escribir")
+    elemento_id: int, pedido: ElementoActualizar, request: Request, db: DB, u: Usuario = requiere("inventario:escribir")
 ):
     e = _obtener(db, elemento_id)
-    cambios = datos.model_dump(exclude_unset=True)
+    cambios = pedido.model_dump(exclude_unset=True)
     for obligatorio in ("nombre", "unidad", "es_consumible", "stock_minimo", "activo"):
         if obligatorio in cambios and cambios[obligatorio] is None:
             del cambios[obligatorio]
@@ -147,28 +145,27 @@ def actualizar_elemento(
     return e
 
 
-# ---------- Movimientos ----------
 
 TIPOS_MANUALES = {TipoMovimiento.entrada, TipoMovimiento.salida, TipoMovimiento.baja, TipoMovimiento.ajuste}
 
 
 @router.post("/movimientos", response_model=MovimientoSalida, status_code=201,
              summary="Registrar entrada, salida de consumible, baja o ajuste")
-def crear_movimiento(datos: MovimientoCrear, request: Request, db: DB, u: Usuario = requiere("inventario:escribir")):
-    if datos.tipo not in TIPOS_MANUALES:
+def crear_movimiento(pedido: MovimientoCrear, request: Request, db: DB, u: Usuario = requiere("inventario:escribir")):
+    if pedido.tipo not in TIPOS_MANUALES:
         raise HTTPException(422, "Los movimientos de préstamo y devolución se generan desde el préstamo.")
-    clave = idempotency.leer_clave(request)
-    previa = idempotency.respuesta_previa(db, u, clave, "POST /movimientos")
+    clave = idempotencia.leer_clave(request)
+    previa = idempotencia.respuesta_previa(db, u, clave, "POST /movimientos")
     if previa:
         return previa
-    elemento = bloquear_elemento(db, datos.elemento_id)
-    mov = aplicar_movimiento(db, elemento, datos.tipo, datos.cantidad, u, motivo=datos.motivo)
+    elemento = bloquear_elemento(db, pedido.elemento_id)
+    mov = aplicar_movimiento(db, elemento, pedido.tipo, pedido.cantidad, u, motivo=pedido.motivo)
     db.flush()
     db.refresh(mov)
     salida = MovimientoSalida.model_validate(mov)
-    registrar(db, request, u, f"movimiento_{datos.tipo.value}", recurso="elemento", recurso_id=elemento.id,
-              detalle={"cantidad": datos.cantidad, "motivo": datos.motivo, "movimiento_id": mov.id})
-    idempotency.guardar(db, u, clave, "POST /movimientos", 201, salida)
+    registrar(db, request, u, f"movimiento_{pedido.tipo.value}", recurso="elemento", recurso_id=elemento.id,
+              detalle={"cantidad": pedido.cantidad, "motivo": pedido.motivo, "movimiento_id": mov.id})
+    idempotencia.guardar(db, u, clave, "POST /movimientos", 201, salida)
     db.commit()
     return salida
 

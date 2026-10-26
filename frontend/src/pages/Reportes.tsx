@@ -1,9 +1,10 @@
 import { useState, type FormEvent } from "react";
 import { api, descargarCsv } from "../api";
 import { Cabecera } from "../components/Marco";
-import { Aviso, Campo, Vacio } from "../components/ui";
+import { Aviso, Campo, Vacio } from "../components/controles";
 import type { Categoria, Reporte } from "../types";
-import { NOMBRE_ESTADO, NOMBRE_MOVIMIENTO, NOMBRE_ROL, fechaHora, hoyISO, useCarga } from "../util";
+import { useCarga } from "../carga";
+import { NOMBRE_ESTADO, NOMBRE_MOVIMIENTO, NOMBRE_ROL, fechaHora, hoyISO } from "../formato";
 
 type Clave = "inventario" | "prestamos" | "vencidos" | "uso-elementos" | "movimientos";
 
@@ -39,10 +40,10 @@ export function Reportes() {
   const [ocupado, setOcupado] = useState(false);
   const categorias = useCarga(() => api<Categoria[]>("/categorias"), []);
 
-  const def = REPORTES.find((r) => r.clave === clave)!;
-  const params = () => {
+  const elegido = REPORTES.find((r) => r.clave === clave)!;
+  const filtros = () => {
     const p: Record<string, string | boolean> = {};
-    if (def.rango) Object.assign(p, { desde, hasta });
+    if (elegido.rango) Object.assign(p, { desde, hasta });
     if (clave === "prestamos" && estado) p.estado = estado;
     if (clave === "movimientos" && tipo) p.tipo = tipo;
     if (clave === "inventario") Object.assign(p, { categoria_id: categoria, solo_bajo_minimo: soloBajo });
@@ -54,7 +55,7 @@ export function Reportes() {
     setOcupado(true);
     setError(null);
     try {
-      setReporte(await api<Reporte>(`/reportes/${clave}`, { params: params() }));
+      setReporte(await api<Reporte>(`/reportes/${clave}`, { params: filtros() }));
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -64,7 +65,7 @@ export function Reportes() {
 
   async function csv() {
     try {
-      await descargarCsv(`/reportes/${clave}`, params());
+      await descargarCsv(`/reportes/${clave}`, filtros());
     } catch (e) {
       setError((e as Error).message);
     }
@@ -87,7 +88,7 @@ export function Reportes() {
 
         <div className="reportes-cuerpo">
           <form className="filtros" onSubmit={generar}>
-            {def.rango && (
+            {elegido.rango && (
               <>
                 <Campo etiqueta="Desde"><input type="date" value={desde} max={hasta} onChange={(e) => setDesde(e.target.value)} /></Campo>
                 <Campo etiqueta="Hasta"><input type="date" value={hasta} min={desde} onChange={(e) => setHasta(e.target.value)} /></Campo>
@@ -128,7 +129,7 @@ export function Reportes() {
           <Aviso>{error}</Aviso>
 
           {!reporte ? (
-            <Vacio titulo={def.nombre}>{def.describe} Ajuste los filtros y genere el reporte.</Vacio>
+            <Vacio titulo={elegido.nombre}>{elegido.describe} Ajuste los filtros y genere el reporte.</Vacio>
           ) : (
             <section className="reporte">
               <dl className="reporte-traza">

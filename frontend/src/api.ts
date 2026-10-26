@@ -37,7 +37,7 @@ function encabezados(extra?: Record<string, string>) {
   return h;
 }
 
-function mensajeDeError(status: number, cuerpo: unknown): string {
+function mensajeDeError(status: number, cuerpo: unknown, ruta: string): string {
   const detalle = (cuerpo as { detail?: unknown })?.detail;
   if (typeof detalle === "string") return detalle;
   if (Array.isArray(detalle) && detalle.length) {
@@ -50,7 +50,7 @@ function mensajeDeError(status: number, cuerpo: unknown): string {
       .join("; ");
   }
   if (status === 0) return "No se pudo conectar con el servidor. Revise que el backend esté encendido.";
-  return `Error ${status}`;
+  return `El servidor respondió ${status} a ${ruta}.`;
 }
 
 export async function api<T>(ruta: string, op: Opciones = {}): Promise<T> {
@@ -65,20 +65,20 @@ export async function api<T>(ruta: string, op: Opciones = {}): Promise<T> {
       body: op.body !== undefined ? JSON.stringify(op.body) : undefined,
     });
   } catch {
-    throw new ApiError(0, mensajeDeError(0, null));
+    throw new ApiError(0, mensajeDeError(0, null, ruta));
   }
   if (resp.status === 204) return undefined as T;
   const cuerpo = await resp.json().catch(() => null);
   if (!resp.ok) {
     if (resp.status === 401 && token && alExpirar) alExpirar();
-    throw new ApiError(resp.status, mensajeDeError(resp.status, cuerpo));
+    throw new ApiError(resp.status, mensajeDeError(resp.status, cuerpo, ruta));
   }
   return cuerpo as T;
 }
 
 export async function descargarCsv(ruta: string, params: Params) {
   const resp = await fetch(armarUrl(ruta, { ...params, formato: "csv" }), { headers: encabezados() });
-  if (!resp.ok) throw new ApiError(resp.status, mensajeDeError(resp.status, await resp.json().catch(() => null)));
+  if (!resp.ok) throw new ApiError(resp.status, mensajeDeError(resp.status, await resp.json().catch(() => null), ruta));
   const nombre = /filename="([^"]+)"/.exec(resp.headers.get("Content-Disposition") ?? "")?.[1] ?? "reporte.csv";
   const url = URL.createObjectURL(await resp.blob());
   const a = document.createElement("a");

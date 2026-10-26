@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { api } from "../api";
 import { Cabecera } from "../components/Marco";
-import { Aviso, Cargando, Paginador, Vacio } from "../components/ui";
+import { Aviso, Cargando, Paginador, Vacio } from "../components/controles";
 import type { Pagina, RegistroAuditoria } from "../types";
-import { fechaHora, useCarga, useRetardo } from "../util";
+import { useCarga, useRetardo } from "../carga";
+import { fechaHora } from "../formato";
 
 const LIMITE = 50;
 const RESULTADOS = { ok: "Correcto", denegado: "Denegado", error: "Error" } as const;
@@ -22,7 +23,7 @@ export function Auditoria() {
   const [desde, setDesde] = useState(0);
   const accionBuscada = useRetardo(accion.trim());
 
-  const { datos, error, cargando } = useCarga(
+  const { datos: pagina, error, cargando } = useCarga(
     () => api<Pagina<RegistroAuditoria>>("/auditoria", {
       params: { resultado, canal, accion: accionBuscada, limite: LIMITE, desde },
     }),
@@ -52,7 +53,7 @@ export function Auditoria() {
                value={accion} onChange={(e) => { setAccion(e.target.value); setDesde(0); }} />
       </div>
       <Aviso>{error}</Aviso>
-      {cargando && !datos ? <Cargando /> : !datos?.items.length ? <Vacio titulo="No hay registros con esos filtros." /> : (
+      {cargando && !pagina ? <Cargando /> : !pagina?.items.length ? <Vacio titulo="No hay registros con esos filtros." /> : (
         <div className="tabla-contenedor">
           <table className="tabla tabla-densa">
             <thead>
@@ -62,7 +63,7 @@ export function Auditoria() {
               </tr>
             </thead>
             <tbody>
-              {datos.items.map((r) => (
+              {pagina.items.map((r) => (
                 <tr key={r.id}>
                   <td className="nowrap">{fechaHora(r.creado_en)}</td>
                   <td>{r.usuario_id ? `#${r.usuario_id} ${r.rol ?? ""}` : "Anónimo"}</td>
@@ -77,7 +78,7 @@ export function Auditoria() {
           </table>
         </div>
       )}
-      {datos && <Paginador total={datos.total} desde={desde} limite={LIMITE} onCambio={setDesde} />}
+      {pagina && <Paginador total={pagina.total} desde={desde} limite={LIMITE} onCambio={setDesde} />}
     </>
   );
 }

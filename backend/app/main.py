@@ -9,7 +9,7 @@ from fastapi.responses import JSONResponse
 from sqlalchemy import text
 
 from . import models  # noqa: F401  (registra las tablas en Base.metadata)
-from .audit import registrar_aparte
+from .auditoria import registrar_aparte
 from .config import get_settings
 from .database import Base, SessionLocal, engine
 from .routers import auditoria, auth, inventario, prestamos, reportes, usuarios
@@ -57,7 +57,7 @@ async def id_de_peticion(request: Request, call_next):
 @app.exception_handler(HTTPException)
 async def registrar_errores_de_negocio(request: Request, exc: HTTPException):
     # Las reglas de negocio rechazadas (conflictos de estado, stock insuficiente, datos
-    # inválidos) quedan en auditoría. Las denegaciones de permiso ya se registran en deps.denegar.
+    # inválidos) quedan en auditoría. Las denegaciones de permiso ya se registran en dependencias.denegar.
     usuario = getattr(request.state, "usuario", None)
     if request.method != "GET" and exc.status_code in (409, 422) and usuario is not None:
         registrar_aparte(

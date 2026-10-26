@@ -1,10 +1,11 @@
 import { useState, type FormEvent } from "react";
 import { api } from "../api";
 import { Cabecera } from "../components/Marco";
-import { Aviso, Campo, Cargando, Modal, Paginador, useAviso } from "../components/ui";
+import { Aviso, Campo, Cargando, Modal, Paginador, useAviso } from "../components/controles";
 import { useSesion } from "../sesion";
 import type { Pagina, Rol, Usuario } from "../types";
-import { NOMBRE_ROL, useCarga, useRetardo } from "../util";
+import { useCarga, useRetardo } from "../carga";
+import { NOMBRE_ROL } from "../formato";
 
 const LIMITE = 50;
 const ROLES = Object.keys(NOMBRE_ROL) as Rol[];

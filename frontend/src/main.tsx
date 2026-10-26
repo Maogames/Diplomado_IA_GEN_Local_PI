@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./App";
-import { ProveedorAvisos } from "./components/ui";
+import { ProveedorAvisos } from "./components/controles";
 import { ProveedorSesion } from "./sesion";
 import "./estilos.css";
 

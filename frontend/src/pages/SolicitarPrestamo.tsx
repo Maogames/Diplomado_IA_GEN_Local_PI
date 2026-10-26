@@ -1,11 +1,12 @@
 import { useState, type FormEvent } from "react";
 import { api, nuevaClave } from "../api";
 import { Cabecera } from "../components/Marco";
-import { Aviso, Campo, Codigo, useAviso } from "../components/ui";
+import { Aviso, Campo, Codigo, useAviso } from "../components/controles";
 import { ir } from "../rutas";
 import { useSesion } from "../sesion";
 import type { Elemento, Pagina, Prestamo, UsuarioResumen } from "../types";
-import { hoyISO, useCarga, useRetardo } from "../util";
+import { useCarga, useRetardo } from "../carga";
+import { hoyISO } from "../formato";
 
 const DIAS_MAX = 15; // debe coincidir con LAB_DIAS_MAX_PRESTAMO del backend
 
@@ -31,7 +32,7 @@ export function SolicitarPrestamo() {
     [busqueda],
   );
   const opciones = (resultados.datos?.items ?? []).filter(
-    (e) => !e.es_consumible && !elegidos.some((x) => x.e.id === e.id),
+    (e) => !e.es_consumible && !elegidos.some((linea) => linea.e.id === e.id),
   );
 
   function agregar(e: Elemento) {
@@ -56,7 +57,7 @@ export function SolicitarPrestamo() {
           docente_responsable_id: docente ? Number(docente) : null,
           fecha_devolucion_prevista: devolucion,
           observaciones: obs || null,
-          detalles: elegidos.map((x) => ({ elemento_id: x.e.id, cantidad: x.cantidad })),
+          detalles: elegidos.map((linea) => ({ elemento_id: linea.e.id, cantidad: linea.cantidad })),
         },
       });
       aviso(`Solicitud #${p.id} enviada. Queda pendiente de aprobación.`);
@@ -117,14 +118,14 @@ export function SolicitarPrestamo() {
               <thead><tr><th scope="col">Elemento</th><th scope="col" className="num">Disponibles</th>
                 <th scope="col" className="num">Cantidad</th><th scope="col"><span className="sr-only">Quitar</span></th></tr></thead>
               <tbody>
-                {elegidos.map((x, i) => (
-                  <tr key={x.e.id}>
-                    <td><Codigo>{x.e.codigo}</Codigo> {x.e.nombre}</td>
-                    <td className="num">{x.e.cantidad_disponible}</td>
+                {elegidos.map((linea, i) => (
+                  <tr key={linea.e.id}>
+                    <td><Codigo>{linea.e.codigo}</Codigo> {linea.e.nombre}</td>
+                    <td className="num">{linea.e.cantidad_disponible}</td>
                     <td className="num">
-                      <input type="number" className="input-corto" min={1} max={x.e.cantidad_disponible} required
-                             aria-label={`Cantidad de ${x.e.codigo}`} value={x.cantidad}
-                             onChange={(ev) => setElegidos(elegidos.map((y, j) => j === i ? { ...y, cantidad: Number(ev.target.value) } : y))} />
+                      <input type="number" className="input-corto" min={1} max={linea.e.cantidad_disponible} required
+                             aria-label={`Cantidad de ${linea.e.codigo}`} value={linea.cantidad}
+                             onChange={(ev) => setElegidos(elegidos.map((otra, j) => j === i ? { ...otra, cantidad: Number(ev.target.value) } : otra))} />
                     </td>
                     <td><button type="button" className="btn btn-sutil" onClick={() => setElegidos(elegidos.filter((_, j) => j !== i))}>Quitar</button></td>
                   </tr>

@@ -3,10 +3,11 @@ import { api } from "../api";
 import { Ciclo } from "../components/Ciclo";
 import { ListaPrestamos } from "../components/FilaPrestamo";
 import { Cabecera } from "../components/Marco";
-import { Aviso, Campo, Cargando, Codigo, Estado, Modal, Paginador, Vacio, useAviso } from "../components/ui";
+import { Aviso, Campo, Cargando, Codigo, Estado, Modal, Paginador, Vacio, useAviso } from "../components/controles";
 import { useSesion } from "../sesion";
 import type { Pagina, Prestamo } from "../types";
-import { NOMBRE_ROL, fecha, useCarga } from "../util";
+import { useCarga } from "../carga";
+import { NOMBRE_ROL, fecha } from "../formato";
 
 const LIMITE = 25;
 const PESTANAS = [
@@ -30,7 +31,7 @@ export function Prestamos() {
   else if (pestana === "cerrados") params.estado = cerradoComo;
   else if (pestana) params.estado = pestana;
 
-  const { datos, error, cargando } = useCarga(
+  const { datos: pagina, error, cargando } = useCarga(
     () => api<Pagina<Prestamo>>("/prestamos", { params }),
     [pestana, desde, cerradoComo],
   );
@@ -60,12 +61,12 @@ export function Prestamos() {
         <p className="nota">Se muestran sus solicitudes{puede("prestamos:aprobar") ? " y las de las prácticas a su cargo" : ""}.</p>
       )}
       <Aviso>{error}</Aviso>
-      {cargando && !datos ? <Cargando /> : datos?.items.length ? (
-        <ListaPrestamos prestamos={datos.items} />
+      {cargando && !pagina ? <Cargando /> : pagina?.items.length ? (
+        <ListaPrestamos prestamos={pagina.items} />
       ) : (
         <Vacio titulo="No hay préstamos en esta vista." />
       )}
-      {datos && <Paginador total={datos.total} desde={desde} limite={LIMITE} onCambio={setDesde} />}
+      {pagina && <Paginador total={pagina.total} desde={desde} limite={LIMITE} onCambio={setDesde} />}
     </>
   );
 }

@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { useSesion } from "../sesion";
-import { NOMBRE_ROL } from "../util";
+import { NOMBRE_ROL } from "../formato";
 
 const SECCIONES = [
   { ruta: "inicio", nombre: "Inicio", permiso: null },
