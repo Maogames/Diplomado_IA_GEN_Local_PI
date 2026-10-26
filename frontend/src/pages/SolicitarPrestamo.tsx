@@ -42,6 +42,7 @@ export function SolicitarPrestamo() {
 
   async function enviar(ev: FormEvent) {
     ev.preventDefault();
+    if (enviando) return;
     if (!elegidos.length) {
       setError("Agregue al menos un elemento.");
       return;
@@ -141,7 +142,7 @@ export function SolicitarPrestamo() {
         <Aviso>{error}</Aviso>
         <div className="acciones-form">
           <a className="btn btn-sutil" href="#/prestamos">Cancelar</a>
-          <button className="btn btn-primario" disabled={enviando}>{enviando ? "Enviando…" : "Enviar solicitud"}</button>
+          <button type="submit" className="btn btn-primario" aria-busy={enviando}>{enviando ? "Enviando…" : "Enviar solicitud"}</button>
         </div>
       </form>
     </>

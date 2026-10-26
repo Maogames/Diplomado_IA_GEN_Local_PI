@@ -20,6 +20,7 @@ export function Login() {
 
   async function enviar(ev: FormEvent) {
     ev.preventDefault();
+    if (enviando) return;
     setEnviando(true);
     setError(null);
     try {
@@ -51,7 +52,7 @@ export function Login() {
                    onChange={(e) => setPassword(e.target.value)} />
           </Campo>
           <Aviso>{error}</Aviso>
-          <button className="btn btn-primario" disabled={enviando}>
+          <button type="submit" className="btn btn-primario" aria-busy={enviando}>
             {enviando ? "Entrando…" : "Entrar"}
           </button>
         </form>

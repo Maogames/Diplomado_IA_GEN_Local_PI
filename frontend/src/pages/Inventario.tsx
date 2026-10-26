@@ -133,6 +133,7 @@ function FormElemento({ e, categorias, onListo }: { e?: Elemento; categorias: Ca
 
   async function enviar(ev: FormEvent) {
     ev.preventDefault();
+    if (enviando) return;
     setEnviando(true);
     setError(null);
     const comun = {
@@ -200,7 +201,7 @@ function FormElemento({ e, categorias, onListo }: { e?: Elemento; categorias: Ca
       {e && <p className="nota">Las cantidades solo cambian con movimientos, para que quede el registro.</p>}
       <Aviso>{error}</Aviso>
       <div className="acciones-form">
-        <button className="btn btn-primario" disabled={enviando}>{e ? "Guardar cambios" : "Registrar elemento"}</button>
+        <button type="submit" className="btn btn-primario" aria-busy={enviando}>{enviando ? "Guardando…" : e ? "Guardar cambios" : "Registrar elemento"}</button>
       </div>
     </form>
   );
@@ -225,6 +226,7 @@ function FormMovimiento({ e, onListo }: { e: Elemento; onListo: () => void }) {
 
   async function enviar(ev: FormEvent) {
     ev.preventDefault();
+    if (enviando) return;
     setEnviando(true);
     setError(null);
     try {
@@ -271,7 +273,7 @@ function FormMovimiento({ e, onListo }: { e: Elemento; onListo: () => void }) {
       </div>
       <Aviso>{error}</Aviso>
       <div className="acciones-form">
-        <button className="btn btn-primario" disabled={enviando}>Registrar movimiento</button>
+        <button type="submit" className="btn btn-primario" aria-busy={enviando}>{enviando ? "Registrando…" : "Registrar movimiento"}</button>
       </div>
     </form>
   );

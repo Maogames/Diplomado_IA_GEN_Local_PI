@@ -90,6 +90,7 @@ export function DetallePrestamo({ id }: { id: number }) {
   const puedeCancelar = ["pendiente", "aprobado"].includes(p.estado) && (esSolicitante || perfil.rol === "tecnico");
 
   async function accion(ruta: string, mensaje: string, body?: unknown) {
+    if (ocupado) return;
     setOcupado(true);
     setErrorAccion(null);
     try {
@@ -208,7 +209,7 @@ function FormRechazo({ onEnviar, ocupado, error }: { onEnviar: (m: string) => vo
         <textarea required minLength={3} maxLength={255} rows={3} value={motivo} onChange={(e) => setMotivo(e.target.value)} />
       </Campo>
       <Aviso>{error}</Aviso>
-      <div className="acciones-form"><button className="btn btn-peligro" disabled={ocupado}>Rechazar</button></div>
+      <div className="acciones-form"><button type="submit" className="btn btn-peligro" aria-busy={ocupado}>{ocupado ? "Rechazando…" : "Rechazar"}</button></div>
     </form>
   );
 }
@@ -252,7 +253,7 @@ function FormDevolucion({ p, onEnviar, ocupado, error }: {
         <textarea rows={2} maxLength={1000} value={obs} onChange={(e) => setObs(e.target.value)} />
       </Campo>
       <Aviso>{error}</Aviso>
-      <div className="acciones-form"><button className="btn btn-primario" disabled={ocupado}>Registrar devolución</button></div>
+      <div className="acciones-form"><button type="submit" className="btn btn-primario" aria-busy={ocupado}>{ocupado ? "Registrando…" : "Registrar devolución"}</button></div>
     </form>
   );
 }
