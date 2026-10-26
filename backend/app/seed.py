@@ -25,7 +25,7 @@ from .models import (
     TipoMovimiento,
     Usuario,
 )
-from .security import hash_password
+from .seguridad import hash_password
 from .services.inventario import aplicar_movimiento
 from .tiempo import ahora, hoy_local
 

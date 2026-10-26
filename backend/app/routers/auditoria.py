@@ -3,7 +3,7 @@ from datetime import datetime
 from fastapi import APIRouter, Query
 from sqlalchemy import func, select
 
-from ..deps import DB, requiere
+from ..dependencias import DB, requiere
 from ..models import RegistroAuditoria, Usuario
 from ..schemas import AuditoriaSalida, Pagina
 

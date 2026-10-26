@@ -26,7 +26,7 @@ from ..models import (
     Usuario,
 )
 from ..schemas import Devolucion, PrestamoCrear
-from ..security import tiene_permiso
+from ..seguridad import tiene_permiso
 from ..tiempo import ahora, hoy_local
 from .inventario import aplicar_movimiento, bloquear_elemento
 
@@ -71,34 +71,34 @@ def _verificar_disponibilidad(prestamo: Prestamo) -> None:
         raise HTTPException(409, "Stock insuficiente: " + "; ".join(faltantes))
 
 
-def crear(db: Session, solicitante: Usuario, datos: PrestamoCrear, canal: str) -> Prestamo:
+def crear(db: Session, solicitante: Usuario, solicitud: PrestamoCrear, canal: str) -> Prestamo:
     s = get_settings()
     hoy = hoy_local()
-    if datos.fecha_devolucion_prevista < hoy:
+    if solicitud.fecha_devolucion_prevista < hoy:
         raise HTTPException(422, "La fecha de devolución no puede ser anterior a hoy.")
-    if datos.fecha_devolucion_prevista > hoy + timedelta(days=s.dias_max_prestamo):
+    if solicitud.fecha_devolucion_prevista > hoy + timedelta(days=s.dias_max_prestamo):
         raise HTTPException(422, f"El préstamo no puede superar {s.dias_max_prestamo} días.")
-    if len(datos.detalles) > s.max_elementos_por_prestamo:
+    if len(solicitud.detalles) > s.max_elementos_por_prestamo:
         raise HTTPException(422, f"Máximo {s.max_elementos_por_prestamo} elementos distintos por préstamo.")
-    ids = [d.elemento_id for d in datos.detalles]
+    ids = [d.elemento_id for d in solicitud.detalles]
     if len(ids) != len(set(ids)):
         raise HTTPException(422, "Un elemento aparece repetido; indique la cantidad total en una sola línea.")
 
-    if datos.docente_responsable_id is not None:
-        docente = db.get(Usuario, datos.docente_responsable_id)
+    if solicitud.docente_responsable_id is not None:
+        docente = db.get(Usuario, solicitud.docente_responsable_id)
         if docente is None or docente.rol != Rol.docente or not docente.activo:
             raise HTTPException(422, "El docente responsable indicado no es válido.")
 
     elementos = {e.id: e for e in db.scalars(select(Elemento).where(Elemento.id.in_(ids)))}
     prestamo = Prestamo(
         solicitante_id=solicitante.id,
-        docente_responsable_id=datos.docente_responsable_id,
-        practica=datos.practica.strip(),
-        fecha_devolucion_prevista=datos.fecha_devolucion_prevista,
-        observaciones=datos.observaciones,
+        docente_responsable_id=solicitud.docente_responsable_id,
+        practica=solicitud.practica.strip(),
+        fecha_devolucion_prevista=solicitud.fecha_devolucion_prevista,
+        observaciones=solicitud.observaciones,
         canal=canal,
     )
-    for d in datos.detalles:
+    for d in solicitud.detalles:
         e = elementos.get(d.elemento_id)
         if e is None or not e.activo:
             raise HTTPException(422, f"El elemento {d.elemento_id} no existe o no está activo.")
@@ -146,11 +146,11 @@ def entregar(db: Session, prestamo: Prestamo, usuario: Usuario) -> None:
     prestamo.entregado_en = ahora()
 
 
-def devolver(db: Session, prestamo: Prestamo, usuario: Usuario, datos: Devolucion) -> None:
+def devolver(db: Session, prestamo: Prestamo, usuario: Usuario, devolucion: Devolucion) -> None:
     _exigir_estado(prestamo, EstadoPrestamo.entregado)
     por_elemento = {d.elemento_id: d for d in prestamo.detalles}
     danados: dict[int, int] = {}
-    for dano in datos.danados:
+    for dano in devolucion.danados:
         detalle = por_elemento.get(dano.elemento_id)
         if detalle is None:
             raise HTTPException(422, f"El elemento {dano.elemento_id} no hace parte de este préstamo.")
@@ -171,9 +171,9 @@ def devolver(db: Session, prestamo: Prestamo, usuario: Usuario, datos: Devolucio
                 db, elemento, TipoMovimiento.baja, n, usuario,
                 motivo=f"Dañado o faltante en devolución del préstamo #{prestamo.id}", prestamo_id=prestamo.id,
             )
-    if datos.observaciones:
+    if devolucion.observaciones:
         previo = f"{prestamo.observaciones}\n" if prestamo.observaciones else ""
-        prestamo.observaciones = f"{previo}Devolución: {datos.observaciones}"
+        prestamo.observaciones = f"{previo}Devolución: {devolucion.observaciones}"
     prestamo.estado = EstadoPrestamo.devuelto
     prestamo.recibido_por_id = usuario.id
     prestamo.devuelto_en = ahora()

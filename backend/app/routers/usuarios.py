@@ -1,11 +1,11 @@
 from fastapi import APIRouter, HTTPException, Query, Request
 from sqlalchemy import func, or_, select
 
-from ..audit import registrar
-from ..deps import DB, UsuarioActual, requiere
+from ..auditoria import registrar
+from ..dependencias import DB, UsuarioActual, requiere
 from ..models import Rol, Usuario
 from ..schemas import Pagina, UsuarioActualizar, UsuarioCrear, UsuarioResumen, UsuarioSalida
-from ..security import hash_password
+from ..seguridad import hash_password
 
 router = APIRouter(prefix="/usuarios", tags=["Usuarios"])
 
@@ -40,12 +40,12 @@ def listar(
 
 
 @router.post("", response_model=UsuarioSalida, status_code=201)
-def crear(datos: UsuarioCrear, request: Request, db: DB, admin: Usuario = requiere("usuarios:gestionar")):
-    if db.scalar(select(Usuario).where(func.lower(Usuario.email) == datos.email)):
+def crear(nuevo: UsuarioCrear, request: Request, db: DB, admin: Usuario = requiere("usuarios:gestionar")):
+    if db.scalar(select(Usuario).where(func.lower(Usuario.email) == nuevo.email)):
         raise HTTPException(409, "Ya existe un usuario con ese correo.")
-    if datos.telefono_whatsapp and db.scalar(select(Usuario).where(Usuario.telefono_whatsapp == datos.telefono_whatsapp)):
+    if nuevo.telefono_whatsapp and db.scalar(select(Usuario).where(Usuario.telefono_whatsapp == nuevo.telefono_whatsapp)):
         raise HTTPException(409, "Ese número de WhatsApp ya está asociado a otro usuario.")
-    usuario = Usuario(**datos.model_dump(exclude={"password"}), password_hash=hash_password(datos.password))
+    usuario = Usuario(**nuevo.model_dump(exclude={"password"}), password_hash=hash_password(nuevo.password))
     db.add(usuario)
     db.flush()
     registrar(db, request, admin, "crear_usuario", recurso="usuario", recurso_id=usuario.id,
@@ -56,12 +56,12 @@ def crear(datos: UsuarioCrear, request: Request, db: DB, admin: Usuario = requie
 
 @router.patch("/{usuario_id}", response_model=UsuarioSalida)
 def actualizar(
-    usuario_id: int, datos: UsuarioActualizar, request: Request, db: DB, admin: Usuario = requiere("usuarios:gestionar")
+    usuario_id: int, pedido: UsuarioActualizar, request: Request, db: DB, admin: Usuario = requiere("usuarios:gestionar")
 ):
     usuario = db.get(Usuario, usuario_id)
     if usuario is None:
         raise HTTPException(404, "Usuario no encontrado.")
-    cambios = datos.model_dump(exclude_unset=True)
+    cambios = pedido.model_dump(exclude_unset=True)
     for obligatorio in ("nombre", "rol", "activo", "password"):
         if obligatorio in cambios and cambios[obligatorio] is None:
             del cambios[obligatorio]

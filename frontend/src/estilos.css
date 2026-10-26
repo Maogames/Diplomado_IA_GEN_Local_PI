@@ -1,11 +1,9 @@
-/* ------------------------------------------------------------------
-   Panel del laboratorio
+/* Panel del laboratorio.
    Paleta tomada del banco de trabajo: verde de máscara de circuito
    impreso, ámbar de LED indicador y rojo de alarma sobre gris claro.
    Tipografía DIN (la de las etiquetas de equipos) para títulos, cifras y
    códigos; fuente del sistema para el texto. Sin fuentes remotas: el panel
-   debe funcionar sin Internet.
-------------------------------------------------------------------- */
+   debe funcionar sin Internet. */
 
 :root {
   --papel: #f3f6f4;
@@ -95,7 +93,7 @@ a { color: var(--placa); text-underline-offset: 2px; }
 .nowrap { white-space: nowrap; }
 .pre { white-space: pre-line; }
 
-/* ---------- Marco general ---------- */
+/* Marco general */
 
 .marco { display: grid; grid-template-columns: 232px minmax(0, 1fr); min-height: 100vh; }
 
@@ -143,7 +141,7 @@ a { color: var(--placa); text-underline-offset: 2px; }
 }
 .cabecera-acciones { display: flex; gap: 0.5rem; }
 
-/* ---------- Controles ---------- */
+/* Controles */
 
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
@@ -200,7 +198,7 @@ textarea { resize: vertical; }
 .aviso-info { background: var(--placa-fondo); color: var(--placa); }
 .formulario .aviso { margin: 0; }
 
-/* ---------- Piezas del vocabulario del laboratorio ---------- */
+/* Piezas del vocabulario del laboratorio */
 
 /* Código de inventario, como la etiqueta pegada al equipo. */
 .codigo {
@@ -236,7 +234,7 @@ textarea { resize: vertical; }
 .nivel-bajo .nivel-lleno { background: var(--led); }
 .nivel-bajo .nivel-cifras strong { color: var(--led); }
 
-/* ---------- Ciclo del préstamo: una pista con pads ---------- */
+/* Ciclo del préstamo: una pista con pads */
 
 .ciclo {
   --pad: 20px; --traza: 3px;
@@ -293,7 +291,7 @@ textarea { resize: vertical; }
 }
 @keyframes trazar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
-/* ---------- Superficies ---------- */
+/* Superficies */
 
 .panel {
   background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--r-panel);
@@ -321,7 +319,7 @@ textarea { resize: vertical; }
 .vacio-titulo { font-family: var(--f-din); font-weight: 700; font-size: 1.05rem; margin: 0 0 0.3rem; }
 .vacio-texto { color: var(--tinta-suave); font-size: 0.92rem; }
 
-/* ---------- Tablas ---------- */
+/* Tablas */
 
 .tabla-contenedor { overflow-x: auto; background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--r-panel); }
 .tabla { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
@@ -353,7 +351,7 @@ textarea { resize: vertical; }
 .resultado-denegado { color: var(--led); }
 .resultado-error { color: var(--alarma); }
 
-/* ---------- Préstamos ---------- */
+/* Préstamos */
 
 .pestanas { display: flex; gap: 0.25rem; border-bottom: 1px solid var(--linea); margin-bottom: 1rem; overflow-x: auto; }
 .pestanas button {
@@ -376,7 +374,7 @@ textarea { resize: vertical; }
 .fp-elementos { display: flex; flex-wrap: wrap; gap: 0.3rem; }
 .fp-estado { display: grid; justify-items: end; gap: 0.35rem; }
 
-/* ---------- Inicio ---------- */
+/* Inicio */
 
 .inicio { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 1.5rem; align-items: start; }
 .inicio-bandejas { display: grid; gap: 1.75rem; }
@@ -399,7 +397,7 @@ textarea { resize: vertical; }
 .lista-stock { list-style: none; margin: 0 0 0.6rem; padding: 0; display: grid; gap: 0.85rem; }
 .ls-nombre { display: block; font-size: 0.9rem; margin-bottom: 0.25rem; }
 
-/* ---------- Solicitar ---------- */
+/* Solicitar */
 
 .elegir { border: 1px solid var(--linea); border-radius: var(--r-panel); padding: 1rem; margin: 0; display: grid; gap: 0.8rem; background: var(--superficie); }
 .elegir legend { font-weight: 600; font-size: 0.88rem; padding: 0 0.3rem; }
@@ -416,7 +414,7 @@ textarea { resize: vertical; }
 .sugerencias button:hover, .sugerencias button:focus-visible { background: var(--placa-fondo); }
 .sug-disp { margin-left: auto; font-size: 0.82rem; color: var(--tinta-suave); white-space: nowrap; }
 
-/* ---------- Reportes ---------- */
+/* Reportes */
 
 .reportes { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 1.5rem; align-items: start; }
 .reportes-lista { display: grid; gap: 0.35rem; }
@@ -436,7 +434,7 @@ textarea { resize: vertical; }
 .reporte-traza dt { color: var(--tinta-suave); font-size: 0.8rem; }
 .reporte-traza dd { margin: 0; font-weight: 600; }
 
-/* ---------- Login ---------- */
+/* Login */
 
 .login { min-height: 100vh; display: grid; place-items: center; padding: 1.5rem 1rem; background: var(--placa-lateral); }
 .login-panel { width: min(420px, 100%); background: var(--superficie); border-radius: var(--r-panel); padding: 2rem; display: grid; gap: 1.5rem; }
@@ -450,7 +448,7 @@ textarea { resize: vertical; }
 .login-demo-lista { display: flex; flex-wrap: wrap; gap: 0.35rem; }
 .login-demo-lista .btn { padding: 0.3rem 0.6rem; font-size: 0.82rem; }
 
-/* ---------- Modal y avisos ---------- */
+/* Modal y avisos */
 
 .modal {
   border: 1px solid var(--linea); border-radius: var(--r-panel); padding: 0;
@@ -473,7 +471,7 @@ textarea { resize: vertical; }
 }
 .toast[data-visible="si"] { opacity: 1; transform: translate(-50%, 0); }
 
-/* ---------- Pantallas pequeñas ---------- */
+/* Pantallas pequeñas */
 
 @media (max-width: 1100px) {
   .inicio { grid-template-columns: 1fr; }

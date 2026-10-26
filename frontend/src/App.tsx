@@ -1,5 +1,5 @@
 import { Marco } from "./components/Marco";
-import { Cargando, Vacio } from "./components/ui";
+import { Cargando, Vacio } from "./components/controles";
 import { useRuta } from "./rutas";
 import { useSesion } from "./sesion";
 import { Auditoria } from "./pages/Auditoria";

@@ -1,10 +1,11 @@
 import { useState, type FormEvent } from "react";
 import { api, nuevaClave } from "../api";
 import { Cabecera } from "../components/Marco";
-import { Aviso, Campo, Cargando, Codigo, Modal, Nivel, Paginador, Vacio, useAviso } from "../components/ui";
+import { Aviso, Campo, Cargando, Codigo, Modal, Nivel, Paginador, Vacio, useAviso } from "../components/controles";
 import { useSesion } from "../sesion";
 import type { Categoria, Elemento, Movimiento, Pagina, TipoMovimiento } from "../types";
-import { NOMBRE_MOVIMIENTO, fechaHora, useCarga, useRetardo } from "../util";
+import { useCarga, useRetardo } from "../carga";
+import { NOMBRE_MOVIMIENTO, fechaHora } from "../formato";
 
 const LIMITE = 25;
 
@@ -278,13 +279,13 @@ function FormMovimiento({ e, onListo }: { e: Elemento; onListo: () => void }) {
 
 function Historial({ e }: { e: Elemento }) {
   const { puede } = useSesion();
-  const { datos, error } = useCarga(
+  const { datos: movimientos, error } = useCarga(
     () => api<Pagina<Movimiento>>("/movimientos", { params: { elemento_id: e.id, limite: 50 } }),
     [e.id],
   );
   if (!puede("reportes:ver")) return <p className="nota">Su rol no puede ver el historial de movimientos.</p>;
   if (error) return <Aviso>{error}</Aviso>;
-  if (!datos) return <Cargando />;
+  if (!movimientos) return <Cargando />;
   return (
     <div className="tabla-contenedor">
       <table className="tabla tabla-densa">
@@ -295,7 +296,7 @@ function Historial({ e }: { e: Elemento }) {
           </tr>
         </thead>
         <tbody>
-          {datos.items.map((m) => (
+          {movimientos.items.map((m) => (
             <tr key={m.id}>
               <td>{fechaHora(m.creado_en)}</td>
               <td>{NOMBRE_MOVIMIENTO[m.tipo]}</td>

@@ -2,12 +2,12 @@ from fastapi import APIRouter, HTTPException, Query, Request
 from sqlalchemy import func, or_, select
 from sqlalchemy.orm import selectinload
 
-from .. import idempotency
-from ..audit import canal_de, registrar
-from ..deps import DB, UsuarioActual, denegar, requiere
+from .. import idempotencia
+from ..auditoria import canal_de, registrar
+from ..dependencias import DB, UsuarioActual, denegar, requiere
 from ..models import EstadoPrestamo, Prestamo, PrestamoDetalle, Rol, Usuario
 from ..schemas import Devolucion, Pagina, PrestamoCrear, PrestamoSalida, Rechazo
-from ..security import tiene_permiso
+from ..seguridad import tiene_permiso
 from ..services import prestamos as servicio
 from ..tiempo import hoy_local
 
@@ -74,17 +74,17 @@ def obtener(prestamo_id: int, request: Request, db: DB, usuario: UsuarioActual):
 
 
 @router.post("", response_model=PrestamoSalida, status_code=201)
-def solicitar(datos: PrestamoCrear, request: Request, db: DB, usuario: Usuario = requiere("prestamos:solicitar")):
-    clave = idempotency.leer_clave(request)
-    previa = idempotency.respuesta_previa(db, usuario, clave, "POST /prestamos")
+def solicitar(solicitud: PrestamoCrear, request: Request, db: DB, usuario: Usuario = requiere("prestamos:solicitar")):
+    clave = idempotencia.leer_clave(request)
+    previa = idempotencia.respuesta_previa(db, usuario, clave, "POST /prestamos")
     if previa:
         return previa
-    p = servicio.crear(db, usuario, datos, canal_de(request))
+    p = servicio.crear(db, usuario, solicitud, canal_de(request))
     registrar(db, request, usuario, "solicitar_prestamo", recurso="prestamo", recurso_id=p.id,
-              detalle={"elementos": [d.model_dump() for d in datos.detalles], "practica": datos.practica})
+              detalle={"elementos": [d.model_dump() for d in solicitud.detalles], "practica": solicitud.practica})
     db.flush()
     salida = _salida(db, p.id)
-    idempotency.guardar(db, usuario, clave, "POST /prestamos", 201, salida)
+    idempotencia.guardar(db, usuario, clave, "POST /prestamos", 201, salida)
     db.commit()
     return salida
 
@@ -117,12 +117,12 @@ def aprobar(prestamo_id: int, request: Request, db: DB, usuario: Usuario = requi
 
 
 @router.post("/{prestamo_id}/rechazar", response_model=PrestamoSalida)
-def rechazar(prestamo_id: int, datos: Rechazo, request: Request, db: DB, usuario: Usuario = requiere("prestamos:aprobar")):
+def rechazar(prestamo_id: int, rechazo: Rechazo, request: Request, db: DB, usuario: Usuario = requiere("prestamos:aprobar")):
     p = _cargar_para_accion(db, request, usuario, prestamo_id, "rechazar_prestamo")
     _validar_aprobador(request, usuario, p, "rechazar_prestamo")
-    servicio.rechazar(db, p, usuario, datos.motivo)
+    servicio.rechazar(db, p, usuario, rechazo.motivo)
     registrar(db, request, usuario, "rechazar_prestamo", recurso="prestamo", recurso_id=p.id,
-              detalle={"motivo": datos.motivo})
+              detalle={"motivo": rechazo.motivo})
     db.commit()
     return _salida(db, p.id)
 
@@ -151,11 +151,11 @@ def entregar(prestamo_id: int, request: Request, db: DB, usuario: Usuario = requ
 
 @router.post("/{prestamo_id}/devolver", response_model=PrestamoSalida,
              summary="Registrar la devolución (repone el stock; los dañados se dan de baja)")
-def devolver(prestamo_id: int, datos: Devolucion, request: Request, db: DB,
+def devolver(prestamo_id: int, devolucion: Devolucion, request: Request, db: DB,
              usuario: Usuario = requiere("prestamos:entregar")):
     p = servicio.cargar(db, prestamo_id, bloquear=True)
-    servicio.devolver(db, p, usuario, datos)
+    servicio.devolver(db, p, usuario, devolucion)
     registrar(db, request, usuario, "devolver_prestamo", recurso="prestamo", recurso_id=p.id,
-              detalle={"danados": [d.model_dump() for d in datos.danados]} if datos.danados else None)
+              detalle={"danados": [d.model_dump() for d in devolucion.danados]} if devolucion.danados else None)
     db.commit()
     return _salida(db, p.id)

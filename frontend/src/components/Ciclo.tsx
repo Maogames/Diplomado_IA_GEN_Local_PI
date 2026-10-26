@@ -1,5 +1,5 @@
 import type { Prestamo } from "../types";
-import { fecha, fechaHora } from "../util";
+import { fecha, fechaHora } from "../formato";
 
 const PASOS = ["Solicitado", "Aprobado", "Entregado", "Devuelto"];
 const EN_ESPERA = ["", "Por aprobar", "Por entregar", "Por devolver"];

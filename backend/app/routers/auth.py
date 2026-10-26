@@ -5,12 +5,12 @@ from fastapi import APIRouter, Depends, HTTPException, Request, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy import func, select
 
-from ..audit import registrar, registrar_aparte
+from ..auditoria import registrar, registrar_aparte
 from ..config import get_settings
-from ..deps import DB, UsuarioActual
+from ..dependencias import DB, UsuarioActual
 from ..models import Usuario
 from ..schemas import CambioClave, LoginEntrada, PerfilSalida, TokenSalida, UsuarioSalida
-from ..security import (
+from ..seguridad import (
     crear_token,
     hash_password,
     permisos_de,
@@ -63,8 +63,8 @@ def _autenticar(db, request: Request, email: str, password: str) -> TokenSalida:
 
 
 @router.post("/login", response_model=TokenSalida)
-def login(datos: LoginEntrada, request: Request, db: DB):
-    return _autenticar(db, request, datos.email, datos.password)
+def login(credenciales: LoginEntrada, request: Request, db: DB):
+    return _autenticar(db, request, credenciales.email, credenciales.password)
 
 
 @router.post("/token", response_model=TokenSalida, include_in_schema=True, summary="Login con formulario (Swagger)")
@@ -78,10 +78,10 @@ def perfil(usuario: UsuarioActual):
 
 
 @router.post("/cambiar-clave", status_code=204)
-def cambiar_clave(datos: CambioClave, request: Request, db: DB, usuario: UsuarioActual):
-    if not verificar_password(datos.actual, usuario.password_hash):
+def cambiar_clave(cambio: CambioClave, request: Request, db: DB, usuario: UsuarioActual):
+    if not verificar_password(cambio.actual, usuario.password_hash):
         registrar_aparte(request, usuario, "cambiar_clave", resultado="denegado")
         raise HTTPException(400, "La contraseña actual no es correcta.")
-    usuario.password_hash = hash_password(datos.nueva)
+    usuario.password_hash = hash_password(cambio.nueva)
     registrar(db, request, usuario, "cambiar_clave", recurso="usuario", recurso_id=usuario.id)
     db.commit()

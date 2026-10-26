@@ -19,7 +19,6 @@ class Pagina(BaseModel, Generic[T]):
     items: list[T]
 
 
-# ---------- Autenticación y usuarios ----------
 
 
 class LoginEntrada(BaseModel):
@@ -82,7 +81,6 @@ class CambioClave(BaseModel):
     nueva: str = Field(min_length=8, max_length=128)
 
 
-# ---------- Inventario ----------
 
 
 class CategoriaEntrada(BaseModel):
@@ -170,7 +168,6 @@ class MovimientoSalida(Esquema):
     creado_en: datetime
 
 
-# ---------- Préstamos ----------
 
 
 class DetalleEntrada(BaseModel):
@@ -227,7 +224,6 @@ class PrestamoSalida(Esquema):
     devuelto_en: datetime | None
 
 
-# ---------- Auditoría ----------
 
 
 class AuditoriaSalida(Esquema):
