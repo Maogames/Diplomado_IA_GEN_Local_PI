@@ -1,0 +1,202 @@
+;;;;;;;;;;;;;;;;
+ID;Código;Nombre Producto;Categoría;Subcategoría;Proveedor;Bodega;Estado;Condición;Calificación;Precio (USD);Costo (USD);Descuento (%);Peso (kg);Stock;Ventas (mes);Días en Inventario
+1001;ROP-0001;Toalla Microfibra;Ropa;Camisas;ProveedorA;Bodega Sur;Agotado;Excelente;?;210,05;94,28;12,7;2,219;52;279;288
+1002;HOG-0002;Figura Acción;Hogar;Limpieza;ProveedorC;Bodega Centro;Agotado;Buena;????;189,32;114,77;4,8;18,982;414;3;173
+1003;ROP-0003;Medias Compresión;Ropa;Camisas;ProveedorA;Bodega Este;Disponible;Regular;?????;84,47;58,84;21,9;20,188;309;135;322
+1004;JUG-0004;Leche Entera;Juguetes;Electrónicos;ProveedorD;Bodega Centro;En tránsito;Regular;?;599,62;249,47;25,7;24,631;116;148;84
+1005;JUG-0005;Atún Lata;Juguetes;Construcción;ProveedorB;Bodega Este;En tránsito;Regular;??;570,47;368,32;5,1;15,248;349;36;328
+1006;HOG-0006;Mouse Inalámbrico;Hogar;Baño;ProveedorC;Bodega Sur;En tránsito;Defectuosa;?????;196,62;80,86;6,3;6,73;161;205;330
+1007;HER-0007;Sartén Antiadherente;Herramientas;Manuales;ProveedorD;Bodega Centro;Agotado;Buena;?????;120,84;79,84;12,9;18,688;275;134;261
+1008;HER-0008;Mouse Inalámbrico;Herramientas;Eléctricas;ProveedorD;Bodega Oeste;Bajo stock;Excelente;?????;732,28;332,08;11,5;14,93;81;216;349
+1009;ROP-0009;Toalla Microfibra;Ropa;Ropa interior;ProveedorE;Bodega Sur;Descontinuado;Excelente;???;653,89;339,41;0,1;3,996;150;222;321
+1010;DEP-0010;Guantes Trabajo;Deportes;Running;ProveedorE;Bodega Centro;En tránsito;Excelente;?;171,08;90,82;27,7;23,84;82;276;58
+1011;JUG-0011;Lámpara LED;Juguetes;Construcción;ProveedorE;Bodega Sur;Agotado;Defectuosa;?;51,59;36,49;14,6;2,187;484;40;282
+1012;ALI-0012;Álbum Arte;Alimentos;Lácteos;ProveedorD;Bodega Centro;En tránsito;Defectuosa;???;741,89;406,63;20,7;18,894;108;276;62
+1013;HOG-0013;Auriculares BT;Hogar;Cocina;ProveedorB;Bodega Norte;Disponible;Regular;?;289,03;175,13;21,2;0,229;117;112;37
+1014;HOG-0014;Atlas Mundial;Hogar;Baño;ProveedorD;Bodega Sur;Disponible;Excelente;????;184,07;82,15;7,3;14,426;478;292;338
+1015;LIB-0015;Bloques Lego;Libros;Historia;ProveedorB;Bodega Sur;Agotado;Defectuosa;?;350,91;246,46;21,8;1,562;27;50;72
+1016;LIB-0016;Toalla Microfibra;Libros;Ciencia;ProveedorA;Bodega Oeste;Disponible;Excelente;?;394,58;278,6;25,7;20,21;38;226;122
+1017;ALI-0017;Atlas Mundial;Alimentos;Conservas;ProveedorC;Bodega Este;Bajo stock;Defectuosa;????;410,45;288,39;0,1;4,158;462;30;357
+1018;HER-0018;Leche Entera;Herramientas;Manuales;ProveedorE;Bodega Este;Descontinuado;Buena;?;253,96;187,69;9,4;1,571;296;277;30
+1019;ROP-0019;Auriculares BT;Ropa;Pantalones;ProveedorE;Bodega Oeste;Disponible;Excelente;??;506,79;322,48;26,7;3,041;120;206;215
+1020;JUG-0020;Atún Lata;Juguetes;Construcción;ProveedorC;Bodega Norte;Disponible;Defectuosa;????;570,09;290,73;19,4;3,315;135;202;319
+1021;ROP-0021;Guía Meditación;Ropa;Camisas;ProveedorC;Bodega Sur;En tránsito;Regular;???;183,15;90,26;26,4;22,028;477;178;314
+1022;ELE-0022;Escoba;Electrónica;Cables;ProveedorB;Bodega Centro;Bajo stock;Buena;?????;792,16;345,58;26,7;6,648;449;68;176
+1023;HOG-0023;Manual Cocina;Hogar;Baño;ProveedorA;Bodega Norte;Bajo stock;Buena;???;416,53;298,6;12,7;2,353;433;26;327
+1024;DEP-0024;Muñeca Articulada;Deportes;Natación;ProveedorE;Bodega Norte;Bajo stock;Buena;??;470,05;258,38;26,5;1,927;4;57;221
+1025;ALI-0025;Escoba;Alimentos;Snacks;ProveedorA;Bodega Centro;Descontinuado;Defectuosa;??;311,54;226,36;6,3;22,478;497;20;318
+1026;ALI-0026;Galletas Integrales;Alimentos;Bebidas;ProveedorD;Bodega Sur;Bajo stock;Buena;???;829,83;567,41;22,1;0,668;451;211;360
+1027;ROP-0027;Monitor LED;Ropa;Accesorios;ProveedorB;Bodega Norte;Agotado;Defectuosa;??;730,16;348,91;24,6;8,774;418;235;169
+1028;DEP-0028;Toalla Microfibra;Deportes;Fútbol;ProveedorB;Bodega Oeste;Bajo stock;Excelente;???;300,1;173,55;0,8;8,312;347;274;56
+1029;LIB-0029;Pelota Fútbol;Libros;Historia;ProveedorD;Bodega Norte;Descontinuado;Buena;?;372,34;277,2;5,7;22,493;59;197;187
+1030;LIB-0030;Gafas Natación;Libros;Novela;ProveedorD;Bodega Centro;Descontinuado;Buena;???;530,62;335,45;20;12,703;63;153;99
+1031;LIB-0031;Jugo Natural;Libros;Arte;ProveedorE;Bodega Centro;En tránsito;Defectuosa;?????;524,15;264,87;6,3;7,632;280;0;227
+1032;HOG-0032;Novela Bestseller;Hogar;Limpieza;ProveedorC;Bodega Norte;Agotado;Regular;?????;675,19;496,9;8,5;16,488;376;86;116
+1033;HOG-0033;Teclado Mecánico;Hogar;Cocina;ProveedorB;Bodega Este;En tránsito;Defectuosa;?????;41,67;31,02;26,6;11,413;312;37;125
+1034;ALI-0034;Pantalón Cargo;Alimentos;Snacks;ProveedorD;Bodega Sur;En tránsito;Regular;?;662,21;315,61;16,7;11,641;411;265;227
+1035;LIB-0035;Muñeca Articulada;Libros;Autoayuda;ProveedorE;Bodega Este;Agotado;Regular;???;762,88;503,71;7,4;6,517;243;230;226
+1036;ROP-0036;Lámpara LED;Ropa;Zapatos;ProveedorB;Bodega Norte;En tránsito;Defectuosa;??;232,78;119,16;6,9;3,502;276;41;170
+1037;HER-0037;Mouse Inalámbrico;Herramientas;Seguridad;ProveedorD;Bodega Este;Disponible;Regular;?????;177,79;97,26;0,6;23,654;463;299;153
+1038;LIB-0038;Guía Meditación;Libros;Arte;ProveedorA;Bodega Este;Bajo stock;Defectuosa;????;636,02;375,98;8,2;12,231;308;112;85
+1039;HER-0039;Tijera Jardín;Herramientas;Manuales;ProveedorB;Bodega Este;Agotado;Excelente;????;455,17;326,55;2,5;16,592;303;288;134
+1040;LIB-0040;Atún Lata;Libros;Historia;ProveedorC;Bodega Norte;En tránsito;Excelente;????;387,86;200,96;28,5;6,993;450;194;277
+1041;ELE-0041;Granola;Electrónica;Tablets;ProveedorA;Bodega Oeste;Agotado;Buena;??;553,5;372,74;28,5;18,868;333;20;65
+1042;HER-0042;Martillo 500g;Herramientas;Eléctricas;ProveedorB;Bodega Centro;Disponible;Excelente;?;805,72;453,43;18,2;4,236;131;188;160
+1043;LIB-0043;Leche Entera;Libros;Arte;ProveedorA;Bodega Oeste;Disponible;Regular;?????;66,91;42,94;23,2;2,592;321;124;273
+1044;LIB-0044;Auriculares BT;Libros;Historia;ProveedorD;Bodega Sur;En tránsito;Buena;???;431,3;224,03;3,2;20,567;434;215;268
+1045;DEP-0045;Guía Meditación;Deportes;Running;ProveedorC;Bodega Este;Agotado;Defectuosa;?;659,01;370,83;7,4;8,091;422;137;292
+1046;LIB-0046;Teclado Mecánico;Libros;Historia;ProveedorE;Bodega Centro;Descontinuado;Excelente;???;421,42;216,51;7,8;8,903;249;108;265
+1047;HOG-0047;Lámpara LED;Hogar;Decoración;ProveedorD;Bodega Norte;Disponible;Regular;????;612,76;349,89;19,4;17,281;388;123;114
+1048;LIB-0048;Escoba;Libros;Ciencia;ProveedorC;Bodega Centro;En tránsito;Regular;?????;565,21;299,08;29,9;8,627;283;271;157
+1049;DEP-0049;Zapatillas Running;Deportes;Natación;ProveedorB;Bodega Este;Bajo stock;Regular;??;613,79;313,3;20,7;23,774;380;274;52
+1050;HOG-0050;Granola;Hogar;Baño;ProveedorE;Bodega Centro;Agotado;Defectuosa;?;308,35;155,96;1,4;3,208;362;273;53
+1051;ELE-0051;Maceta Plástico;Electrónica;Cables;ProveedorA;Bodega Este;En tránsito;Excelente;?;400,31;221,84;25,9;6,349;94;26;296
+1052;ELE-0052;Calcetines Pack;Electrónica;Laptops;ProveedorE;Bodega Oeste;Agotado;Defectuosa;?????;689,94;505,17;22,9;3,005;43;127;231
+1053;HER-0053;Cinta Métrica;Herramientas;Medición;ProveedorB;Bodega Centro;Disponible;Buena;??;841,55;426,57;22,2;15,26;317;30;123
+1054;ALI-0054;Auriculares BT;Alimentos;Cereales;ProveedorD;Bodega Norte;Agotado;Regular;???;135,16;73,39;6,9;7,317;352;240;321
+1055;HOG-0055;Zapatillas Running;Hogar;Jardín;ProveedorC;Bodega Oeste;Descontinuado;Regular;??;464,02;290,79;2,1;20,674;465;136;225
+1056;ROP-0056;Escoba;Ropa;Accesorios;ProveedorD;Bodega Centro;Descontinuado;Regular;?;595,52;434,69;2,4;12,37;256;276;14
+1057;ROP-0057;Martillo 500g;Ropa;Pantalones;ProveedorD;Bodega Oeste;En tránsito;Regular;??;500,09;203,67;22,9;14,427;391;137;93
+1058;LIB-0058;Camisa Casual;Libros;Arte;ProveedorC;Bodega Este;Descontinuado;Excelente;????;400,83;217,62;9,9;21,45;164;53;233
+1059;ROP-0059;Sartén Antiadherente;Ropa;Zapatos;ProveedorD;Bodega Este;Disponible;Buena;?????;276,47;204,47;0;20,632;206;263;266
+1060;JUG-0060;Atlas Mundial;Juguetes;Electrónicos;ProveedorD;Bodega Norte;Disponible;Buena;????;532,53;354,66;27,8;13,753;104;136;364
+1061;ALI-0061;Taladro Eléctrico;Alimentos;Lácteos;ProveedorD;Bodega Centro;Descontinuado;Regular;??;14,09;7,65;3,5;11,563;115;58;213
+1062;HER-0062;Lámpara LED;Herramientas;Seguridad;ProveedorC;Bodega Este;Bajo stock;Regular;?;389,63;175,58;4,1;18,67;97;260;2
+1063;DEP-0063;Cinta Métrica;Deportes;Ciclismo;ProveedorE;Bodega Oeste;En tránsito;Defectuosa;???;493,99;311,7;14,5;11,191;443;76;165
+1064;HOG-0064;Martillo 500g;Hogar;Cocina;ProveedorD;Bodega Sur;En tránsito;Excelente;????;327,07;228,82;14,2;7,988;210;22;65
+1065;JUG-0065;Muñeca Articulada;Juguetes;Educativos;ProveedorA;Bodega Este;Bajo stock;Regular;??;87,01;62,53;19,6;10,279;7;73;320
+1066;LIB-0066;Gafas Natación;Libros;Novela;ProveedorE;Bodega Norte;Descontinuado;Excelente;????;724,86;507,96;26,6;15,689;194;162;121
+1067;DEP-0067;Camisa Casual;Deportes;Natación;ProveedorA;Bodega Centro;Disponible;Regular;?;370,29;160,87;20,8;11,12;324;51;184
+1068;JUG-0068;Calcetines Pack;Juguetes;Muñecas;ProveedorE;Bodega Sur;En tránsito;Buena;????;209,46;113,99;2,4;4,291;349;92;119
+1069;HER-0069;Tablet Juegos;Herramientas;Medición;ProveedorA;Bodega Este;Bajo stock;Regular;??;218,89;88,28;20,3;22,535;411;238;328
+1070;LIB-0070;Tablet Juegos;Libros;Historia;ProveedorE;Bodega Centro;Bajo stock;Excelente;???;718,9;337,69;11,4;2,711;196;247;338
+1071;LIB-0071;Cable USB-C;Libros;Historia;ProveedorB;Bodega Oeste;Bajo stock;Buena;???;482,12;308,57;22,4;22,77;381;25;326
+1072;HOG-0072;Sartén Antiadherente;Hogar;Limpieza;ProveedorC;Bodega Este;Disponible;Regular;?;576,91;376,33;27,1;15,725;337;70;68
+1073;ROP-0073;Pelota Fútbol;Ropa;Zapatos;ProveedorC;Bodega Sur;Bajo stock;Defectuosa;?????;635,99;293,49;11;21,918;67;276;152
+1074;JUG-0074;Tablet Juegos;Juguetes;Educativos;ProveedorE;Bodega Centro;Disponible;Defectuosa;????;818,55;367,75;21,7;21,511;494;115;8
+1075;DEP-0075;Zapatillas Running;Deportes;Running;ProveedorA;Bodega Sur;En tránsito;Excelente;???;387,93;246,53;24,7;14,635;344;134;318
+1076;JUG-0076;Granola;Juguetes;Electrónicos;ProveedorA;Bodega Centro;En tránsito;Excelente;?;551,39;343,18;3,5;16,249;237;154;50
+1077;HOG-0077;Gorra Deportiva;Hogar;Limpieza;ProveedorD;Bodega Norte;En tránsito;Defectuosa;??;331,88;175,85;22,3;10,507;486;276;144
+1078;ELE-0078;Atún Lata;Electrónica;Tablets;ProveedorC;Bodega Norte;En tránsito;Regular;?????;378,27;277,16;20,6;2,529;437;185;98
+1079;ROP-0079;Camisa Casual;Ropa;Accesorios;ProveedorE;Bodega Sur;Disponible;Buena;??;564,2;352,4;10;1,312;305;10;301
+1080;HOG-0080;Gafas Natación;Hogar;Cocina;ProveedorE;Bodega Centro;Agotado;Excelente;??;658,78;445,35;29,5;6,968;305;1;339
+1081;ELE-0081;Cable USB-C;Electrónica;Laptops;ProveedorD;Bodega Oeste;Disponible;Excelente;??;306,11;206,92;8;0,444;301;165;244
+1082;HER-0082;Manual Cocina;Herramientas;Medición;ProveedorC;Bodega Este;Disponible;Excelente;?????;505,63;282,24;27,3;18,195;113;22;246
+1083;LIB-0083;Pantalón Cargo;Libros;Arte;ProveedorC;Bodega Oeste;Descontinuado;Regular;??;418;300,29;4,5;8,087;37;41;196
+1084;DEP-0084;Manual Cocina;Deportes;Fitness;ProveedorB;Bodega Este;En tránsito;Buena;?????;515,6;224,14;19,5;21,327;359;58;212
+1085;JUG-0085;Rompecabezas 500pz;Juguetes;Muñecas;ProveedorD;Bodega Norte;Disponible;Excelente;??;355,05;153,84;11,2;16,644;218;160;48
+1086;LIB-0086;Mancuerna 5kg;Libros;Novela;ProveedorC;Bodega Este;Disponible;Regular;????;690,47;410,64;20,1;14,064;300;287;308
+1087;DEP-0087;Pantalón Cargo;Deportes;Ciclismo;ProveedorC;Bodega Norte;Bajo stock;Buena;?????;492,29;233,57;3,2;5,645;336;246;220
+1088;ELE-0088;Toalla Microfibra;Electrónica;Cables;ProveedorB;Bodega Oeste;En tránsito;Excelente;??;27,04;13,4;10,5;23,042;390;158;73
+1089;ELE-0089;Álbum Arte;Electrónica;Smartphones;ProveedorE;Bodega Norte;Disponible;Buena;?????;184,83;101,09;21,6;9,283;174;80;81
+1090;ELE-0090;Toalla Microfibra;Electrónica;Smartphones;ProveedorA;Bodega Centro;En tránsito;Excelente;?????;378,04;207,32;6,5;10,384;310;226;146
+1091;HER-0091;Escoba;Herramientas;Jardín;ProveedorB;Bodega Centro;Bajo stock;Regular;??;40,99;22,07;9;0,242;306;28;62
+1092;ELE-0092;Bloques Lego;Electrónica;Auriculares;ProveedorA;Bodega Este;Disponible;Defectuosa;???;151,4;80,71;25;12,532;360;117;10
+1093;HER-0093;Pelota Fútbol;Herramientas;Eléctricas;ProveedorB;Bodega Oeste;En tránsito;Regular;???;490,46;294,61;12,2;7,273;363;213;46
+1094;LIB-0094;Lámpara LED;Libros;Novela;ProveedorC;Bodega Sur;Disponible;Excelente;??;371,74;200,8;22,4;21,77;40;202;272
+1095;HOG-0095;Casco Ciclismo;Hogar;Baño;ProveedorB;Bodega Oeste;Agotado;Excelente;??;618,95;424,99;4,4;5,945;417;75;91
+1096;HER-0096;Martillo 500g;Herramientas;Seguridad;ProveedorC;Bodega Sur;En tránsito;Excelente;???;646,5;360,18;29,6;16,093;473;289;241
+1097;HER-0097;Toalla Microfibra;Herramientas;Medición;ProveedorC;Bodega Norte;Disponible;Defectuosa;???;503,73;263,54;1,1;11,57;37;158;237
+1098;ELE-0098;Martillo 500g;Electrónica;Auriculares;ProveedorC;Bodega Norte;Descontinuado;Buena;?;554,93;284,42;1,9;3,814;243;256;21
+1099;HOG-0099;Muñeca Articulada;Hogar;Jardín;ProveedorE;Bodega Norte;Bajo stock;Excelente;???;446,65;273,99;11,6;22,953;186;190;169
+1100;ROP-0100;Medias Compresión;Ropa;Ropa interior;ProveedorC;Bodega Centro;En tránsito;Buena;??;243,31;158,96;17,5;8,367;336;76;305
+1101;ROP-0101;Taladro Eléctrico;Ropa;Zapatos;ProveedorA;Bodega Este;Descontinuado;Regular;?????;321,74;217,84;24,9;16,769;416;65;10
+1102;JUG-0102;Jugo Natural;Juguetes;Construcción;ProveedorA;Bodega Centro;Disponible;Excelente;??;808,62;420,16;30;4,841;392;248;339
+1103;JUG-0103;Gorra Deportiva;Juguetes;Electrónicos;ProveedorB;Bodega Este;Descontinuado;Regular;???;508,67;230,93;1,3;18,044;92;84;230
+1104;HOG-0104;Lámpara LED;Hogar;Limpieza;ProveedorD;Bodega Centro;En tránsito;Defectuosa;????;264,77;180,84;28,4;9,228;240;99;83
+1105;HOG-0105;Gorra Deportiva;Hogar;Limpieza;ProveedorA;Bodega Centro;Disponible;Buena;?????;742,37;310,51;3,1;13,886;246;190;140
+1106;HER-0106;Calcetines Pack;Herramientas;Jardín;ProveedorD;Bodega Norte;En tránsito;Regular;?;706,81;305,41;26,5;20,427;466;113;121
+1107;LIB-0107;Mancuerna 5kg;Libros;Novela;ProveedorD;Bodega Sur;En tránsito;Defectuosa;???;192,8;98,62;4,1;19,795;50;171;316
+1108;ELE-0108;Teclado Mecánico;Electrónica;Smartphones;ProveedorC;Bodega Norte;Disponible;Buena;??;219,4;151,88;23,3;10,61;280;270;215
+1109;HER-0109;Zapatillas Running;Herramientas;Eléctricas;ProveedorC;Bodega Este;Disponible;Regular;??;711,59;409,12;17,3;15,817;274;8;124
+1110;LIB-0110;Camisa Casual;Libros;Ciencia;ProveedorE;Bodega Norte;En tránsito;Defectuosa;?????;446,15;234,77;23,6;13,625;488;269;23
+1111;LIB-0111;Sartén Antiadherente;Libros;Historia;ProveedorE;Bodega Centro;Agotado;Excelente;?;635,85;333,81;19,7;6,066;34;176;181
+1112;JUG-0112;Tablet Juegos;Juguetes;Acción;ProveedorA;Bodega Centro;Agotado;Excelente;????;833,74;473,14;23,3;1,624;93;69;103
+1113;ELE-0113;Escoba;Electrónica;Tablets;ProveedorC;Bodega Centro;Disponible;Regular;??;439,29;327,8;22,6;6,37;278;242;140
+1114;ROP-0114;Bloques Lego;Ropa;Zapatos;ProveedorC;Bodega Oeste;Bajo stock;Excelente;????;756,34;499,3;5,6;8,509;458;197;218
+1115;ROP-0115;Guantes Trabajo;Ropa;Accesorios;ProveedorC;Bodega Este;Descontinuado;Defectuosa;???;845,85;391,76;9,8;2,61;150;164;86
+1116;HER-0116;Muñeca Articulada;Herramientas;Medición;ProveedorA;Bodega Este;Bajo stock;Buena;?;38,4;27,05;29,4;6,9;180;222;16
+1117;ALI-0117;Muñeca Articulada;Alimentos;Cereales;ProveedorE;Bodega Sur;En tránsito;Regular;?;31,99;13,55;28,5;9,086;398;187;191
+1118;HER-0118;Martillo 500g;Herramientas;Eléctricas;ProveedorD;Bodega Oeste;En tránsito;Excelente;??;119,2;62,99;3,4;6,278;160;142;135
+1119;DEP-0119;Atún Lata;Deportes;Fitness;ProveedorD;Bodega Sur;En tránsito;Excelente;?;846,92;423,42;4,1;5,044;469;251;350
+1120;JUG-0120;Auriculares BT;Juguetes;Construcción;ProveedorC;Bodega Oeste;Agotado;Excelente;??;468,62;235,07;27,8;17,81;153;80;103
+1121;ALI-0121;Atlas Mundial;Alimentos;Bebidas;ProveedorA;Bodega Norte;Bajo stock;Defectuosa;?????;24,78;14,72;16,5;20,101;188;239;246
+1122;LIB-0122;Martillo 500g;Libros;Arte;ProveedorB;Bodega Oeste;Descontinuado;Buena;???;65;48,12;20,4;11,277;328;37;67
+1123;LIB-0123;Mouse Inalámbrico;Libros;Autoayuda;ProveedorC;Bodega Oeste;Bajo stock;Excelente;??;707,1;411,06;28;4,091;155;84;129
+1124;HOG-0124;Toalla Microfibra;Hogar;Limpieza;ProveedorB;Bodega Sur;Descontinuado;Regular;?????;108,58;54,94;5,1;12,589;273;47;289
+1125;ELE-0125;Camisa Casual;Electrónica;Smartphones;ProveedorE;Bodega Norte;En tránsito;Regular;????;41,03;25,62;23;16,296;295;135;329
+1126;DEP-0126;Lámpara LED;Deportes;Fitness;ProveedorD;Bodega Este;En tránsito;Buena;????;684,47;437,89;1,8;1,871;152;232;175
+1127;ALI-0127;Pelota Fútbol;Alimentos;Lácteos;ProveedorA;Bodega Centro;Agotado;Defectuosa;?????;624,73;438,11;11,1;3,313;499;204;63
+1128;DEP-0128;Lámpara LED;Deportes;Fitness;ProveedorC;Bodega Oeste;Bajo stock;Buena;??;121,89;50,91;12,5;21,611;484;196;82
+1129;HER-0129;Tablet Juegos;Herramientas;Jardín;ProveedorB;Bodega Oeste;Bajo stock;Excelente;??;425,2;216;15,2;23,634;11;46;26
+1130;DEP-0130;Guantes Trabajo;Deportes;Fitness;ProveedorB;Bodega Centro;Bajo stock;Defectuosa;????;750,28;471,92;25,4;13,44;240;146;188
+1131;ELE-0131;Mouse Inalámbrico;Electrónica;Auriculares;ProveedorC;Bodega Oeste;Descontinuado;Excelente;?????;485,81;227,42;15,1;1,885;283;147;66
+1132;ROP-0132;Mancuerna 5kg;Ropa;Accesorios;ProveedorD;Bodega Oeste;Disponible;Excelente;?????;676,18;350,72;6;18,886;480;187;20
+1133;ALI-0133;Novela Bestseller;Alimentos;Lácteos;ProveedorB;Bodega Este;Descontinuado;Regular;???;442,63;200,13;27,9;3,538;457;263;304
+1134;JUG-0134;Manual Cocina;Juguetes;Electrónicos;ProveedorD;Bodega Oeste;Bajo stock;Excelente;?;453,66;294;11,1;20,403;153;243;306
+1135;HER-0135;Cinta Métrica;Herramientas;Medición;ProveedorD;Bodega Sur;Agotado;Excelente;?????;492,05;321,06;18,9;4,304;298;245;294
+1136;ROP-0136;Teclado Mecánico;Ropa;Pantalones;ProveedorA;Bodega Sur;Descontinuado;Buena;????;376,28;205,66;23,2;10,289;211;104;288
+1137;JUG-0137;Álbum Arte;Juguetes;Muñecas;ProveedorE;Bodega Este;Agotado;Buena;???;321,86;236,52;10,6;8,591;235;272;143
+1138;DEP-0138;Escoba;Deportes;Natación;ProveedorC;Bodega Norte;Descontinuado;Defectuosa;???;656,07;424,29;10,5;7,96;353;250;203
+1139;JUG-0139;Maceta Plástico;Juguetes;Acción;ProveedorB;Bodega Sur;Descontinuado;Regular;????;38,15;28,02;19,7;23,104;40;177;288
+1140;DEP-0140;Pantalón Cargo;Deportes;Natación;ProveedorA;Bodega Norte;En tránsito;Regular;??;524,29;317,4;15,9;16,762;124;25;242
+1141;ROP-0141;Cable USB-C;Ropa;Pantalones;ProveedorD;Bodega Sur;Bajo stock;Regular;????;819,93;608,61;26,4;16,34;80;208;147
+1142;ELE-0142;Martillo 500g;Electrónica;Smartphones;ProveedorA;Bodega Este;En tránsito;Buena;??;199,31;131,25;5,3;22,835;435;19;149
+1143;ELE-0143;Escoba;Electrónica;Smartphones;ProveedorD;Bodega Sur;Descontinuado;Defectuosa;?????;483,85;211,71;19,2;11,386;171;145;140
+1144;HOG-0144;Gafas Natación;Hogar;Decoración;ProveedorE;Bodega Sur;Agotado;Defectuosa;???;140,21;78,6;10,1;0,401;131;95;219
+1145;JUG-0145;Rompecabezas 500pz;Juguetes;Educativos;ProveedorD;Bodega Sur;En tránsito;Regular;???;569,69;264,72;7,4;8,124;71;244;169
+1146;DEP-0146;Martillo 500g;Deportes;Running;ProveedorB;Bodega Este;Descontinuado;Regular;???;12,19;7,66;3,5;1,6;354;120;354
+1147;ROP-0147;Mancuerna 5kg;Ropa;Zapatos;ProveedorC;Bodega Este;Descontinuado;Defectuosa;?????;523,4;249,5;22,4;3,872;68;244;276
+1148;HOG-0148;Guantes Trabajo;Hogar;Cocina;ProveedorA;Bodega Norte;Descontinuado;Buena;?????;742,48;318,27;2,3;17,609;228;270;294
+1149;ALI-0149;Pelota Fútbol;Alimentos;Bebidas;ProveedorD;Bodega Norte;En tránsito;Buena;?????;726,68;403,05;14,7;17,937;348;105;263
+1150;LIB-0150;Martillo 500g;Libros;Arte;ProveedorB;Bodega Oeste;Disponible;Excelente;?;51,43;28,9;11,9;18,096;413;157;217
+1151;JUG-0151;Guía Meditación;Juguetes;Educativos;ProveedorD;Bodega Centro;En tránsito;Defectuosa;??;845,02;614,42;12,3;0,842;35;241;194
+1152;LIB-0152;Guía Meditación;Libros;Novela;ProveedorB;Bodega Norte;Disponible;Regular;??;115,21;80,77;11,8;24,822;60;91;238
+1153;LIB-0153;Medias Compresión;Libros;Autoayuda;ProveedorA;Bodega Este;Descontinuado;Excelente;?;700,3;340,79;28,1;6,927;177;79;124
+1154;HOG-0154;Pantalón Cargo;Hogar;Decoración;ProveedorB;Bodega Oeste;Agotado;Excelente;????;505,87;281,39;1,3;6,156;344;24;72
+1155;DEP-0155;Martillo 500g;Deportes;Natación;ProveedorB;Bodega Este;Bajo stock;Regular;?????;272,77;166,19;26,3;5,961;344;164;32
+1156;ALI-0156;Taladro Eléctrico;Alimentos;Conservas;ProveedorD;Bodega Sur;Bajo stock;Defectuosa;????;422,54;312,81;9,6;19,656;482;195;95
+1157;HER-0157;Granola;Herramientas;Manuales;ProveedorE;Bodega Oeste;Agotado;Defectuosa;????;257,37;166,69;16,9;22,873;412;237;125
+1158;DEP-0158;Gafas Natación;Deportes;Natación;ProveedorA;Bodega Centro;En tránsito;Excelente;??;550,58;397,95;21,7;2,357;433;189;38
+1159;HOG-0159;Taladro Eléctrico;Hogar;Limpieza;ProveedorB;Bodega Norte;En tránsito;Buena;??;186,42;88,2;27,3;7,615;464;170;357
+1160;HOG-0160;Lámpara LED;Hogar;Jardín;ProveedorC;Bodega Oeste;En tránsito;Defectuosa;???;470,39;315,83;10,8;13,365;194;238;51
+1161;HER-0161;Atún Lata;Herramientas;Medición;ProveedorE;Bodega Oeste;En tránsito;Regular;?????;316,67;172,55;0,5;18,544;288;113;79
+1162;HOG-0162;Granola;Hogar;Baño;ProveedorD;Bodega Este;En tránsito;Buena;???;324,41;224,39;20,5;16,382;255;281;181
+1163;ALI-0163;Guía Meditación;Alimentos;Bebidas;ProveedorA;Bodega Norte;En tránsito;Buena;?;416,35;300,15;25,2;13,122;277;30;323
+1164;HOG-0164;Calcetines Pack;Hogar;Decoración;ProveedorD;Bodega Este;Disponible;Excelente;?????;10,25;5,91;20;15,465;191;30;273
+1165;LIB-0165;Teclado Mecánico;Libros;Novela;ProveedorB;Bodega Norte;Disponible;Buena;????;451,18;223,86;24,4;0,478;500;146;124
+1166;HOG-0166;Álbum Arte;Hogar;Limpieza;ProveedorE;Bodega Sur;Agotado;Regular;????;216,42;113,42;28,8;2,022;407;203;351
+1167;ROP-0167;Camisa Casual;Ropa;Camisas;ProveedorD;Bodega Este;Bajo stock;Excelente;?;345,97;184,06;21,1;15,937;243;28;271
+1168;ELE-0168;Atún Lata;Electrónica;Laptops;ProveedorE;Bodega Oeste;Disponible;Buena;???;766,33;492,21;27,7;6,814;290;243;162
+1169;ELE-0169;Cinta Métrica;Electrónica;Laptops;ProveedorB;Bodega Oeste;En tránsito;Regular;?????;124,7;85,7;9;23,225;420;203;197
+1170;ALI-0170;Manual Cocina;Alimentos;Snacks;ProveedorE;Bodega Oeste;En tránsito;Regular;?????;634,27;330,49;2,3;5,842;50;223;16
+1171;DEP-0171;Atlas Mundial;Deportes;Fitness;ProveedorA;Bodega Oeste;Bajo stock;Buena;????;195,85;116,25;17,6;4,684;192;221;38
+1172;ROP-0172;Calcetines Pack;Ropa;Zapatos;ProveedorC;Bodega Este;Bajo stock;Regular;?;324,55;218,86;3,2;7,951;78;199;53
+1173;ALI-0173;Jugo Natural;Alimentos;Snacks;ProveedorA;Bodega Oeste;Descontinuado;Regular;?????;367,76;218,8;2,7;2,627;262;208;198
+1174;ELE-0174;Figura Acción;Electrónica;Tablets;ProveedorE;Bodega Sur;En tránsito;Buena;?????;331,16;142,28;29,3;22,635;461;286;72
+1175;DEP-0175;Toalla Microfibra;Deportes;Ciclismo;ProveedorC;Bodega Centro;Agotado;Defectuosa;?;420,42;177,48;14,5;10,557;222;141;305
+1176;HOG-0176;Pantalón Cargo;Hogar;Jardín;ProveedorD;Bodega Centro;En tránsito;Buena;???;117,33;47,21;11,4;21,048;202;170;154
+1177;JUG-0177;Leche Entera;Juguetes;Electrónicos;ProveedorE;Bodega Sur;Bajo stock;Defectuosa;????;408,46;188,78;20,8;7,322;203;163;144
+1178;LIB-0178;Zapatillas Running;Libros;Historia;ProveedorB;Bodega Este;Bajo stock;Excelente;????;792,43;372,39;16,5;17,059;279;92;210
+1179;HER-0179;Escoba;Herramientas;Manuales;ProveedorD;Bodega Oeste;En tránsito;Defectuosa;?????;207,61;130,9;2,2;19,737;366;216;279
+1180;ELE-0180;Guía Meditación;Electrónica;Tablets;ProveedorA;Bodega Oeste;En tránsito;Regular;?????;505,76;364,17;10,7;16,457;55;127;221
+1181;ROP-0181;Pantalón Cargo;Ropa;Camisas;ProveedorC;Bodega Este;En tránsito;Buena;????;221,78;128,35;17,3;14,534;265;285;177
+1182;ELE-0182;Pantalón Cargo;Electrónica;Auriculares;ProveedorC;Bodega Centro;En tránsito;Buena;???;252,88;182,63;21,9;20,791;43;59;267
+1183;HER-0183;Novela Bestseller;Herramientas;Medición;ProveedorA;Bodega Centro;Disponible;Buena;?;85,24;55,64;1,3;1,726;231;163;125
+1184;ALI-0184;Galletas Integrales;Alimentos;Cereales;ProveedorD;Bodega Este;Disponible;Buena;??;283,01;155,44;18,9;19,954;236;118;231
+1185;LIB-0185;Cable USB-C;Libros;Arte;ProveedorB;Bodega Centro;Bajo stock;Buena;?????;599,76;283,1;24;14,455;385;32;235
+1186;ROP-0186;Atlas Mundial;Ropa;Zapatos;ProveedorC;Bodega Este;Descontinuado;Buena;???;449,74;280,5;17,6;15,302;305;198;345
+1187;DEP-0187;Cinta Métrica;Deportes;Running;ProveedorE;Bodega Este;En tránsito;Buena;??;74,33;33,22;5,5;7,669;60;122;295
+1188;LIB-0188;Jugo Natural;Libros;Arte;ProveedorB;Bodega Centro;En tránsito;Excelente;??;414,95;244,02;14,7;13,895;470;88;184
+1189;ELE-0189;Gorra Deportiva;Electrónica;Auriculares;ProveedorD;Bodega Este;En tránsito;Buena;????;167,87;89,71;12,3;16,344;287;258;43
+1190;ELE-0190;Maceta Plástico;Electrónica;Laptops;ProveedorE;Bodega Oeste;Disponible;Excelente;????;30,21;14,46;17;19,529;147;86;138
+1191;JUG-0191;Monitor LED;Juguetes;Electrónicos;ProveedorC;Bodega Norte;En tránsito;Regular;??;646,6;358,53;24,9;2,605;111;217;179
+1192;ROP-0192;Zapatillas Running;Ropa;Accesorios;ProveedorB;Bodega Oeste;Agotado;Buena;????;659,85;318,66;18,3;21,533;415;179;106
+1193;ELE-0193;Casco Ciclismo;Electrónica;Cables;ProveedorC;Bodega Oeste;Disponible;Buena;?????;453,61;276,2;8,8;24,476;86;165;211
+1194;ELE-0194;Gorra Deportiva;Electrónica;Tablets;ProveedorD;Bodega Sur;Descontinuado;Regular;????;596,96;266,51;22,8;20,721;74;164;322
+1195;LIB-0195;Muñeca Articulada;Libros;Arte;ProveedorD;Bodega Este;Bajo stock;Excelente;???;66,5;45,09;22,5;10,101;393;47;48
+1196;HER-0196;Auriculares BT;Herramientas;Medición;ProveedorC;Bodega Centro;Descontinuado;Buena;???;676,84;364,95;14,8;20,63;495;219;290
+1197;HER-0197;Mouse Inalámbrico;Herramientas;Medición;ProveedorD;Bodega Este;Disponible;Defectuosa;??;41,44;25,66;27,9;0,456;428;235;104
+1198;ALI-0198;Galletas Integrales;Alimentos;Lácteos;ProveedorA;Bodega Este;Bajo stock;Buena;??;743,57;525,56;11,2;6,297;47;184;220
+1199;ROP-0199;Cable USB-C;Ropa;Camisas;ProveedorC;Bodega Norte;En tránsito;Buena;?;183,37;78,35;13,4;13,01;303;115;245
+1200;ROP-0200;Medias Compresión;Ropa;Pantalones;ProveedorB;Bodega Sur;Disponible;Excelente;????;78,21;53,35;9;9,221;52;160;313
