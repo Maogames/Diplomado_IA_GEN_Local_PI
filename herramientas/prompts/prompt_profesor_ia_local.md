@@ -1,10 +1,12 @@
 # Prompt — Profesor de IA generativa local (revisión del planteamiento del problema)
 
+> **Nota:** el diagnóstico de este prompt se escribió antes de la Sesión 3; varios puntos ya se resolvieron (ver `docs/02_decisiones.md`).
+>
 > **Cómo usarlo:** copie el bloque de abajo en ChatGPT, Claude u otro asistente y adjunte en el mismo mensaje:
-> 1. `Modulo1/Planteamiento del Problema/Planteamiento_del_problema.md` (documento principal)
+> 1. `docs/01_planteamiento_del_problema.md` (documento principal)
 > 2. El PDF del diplomado (*Diplomado en Inteligencia Artificial Generativa Local…*)
-> 3. `Modulo1/Planteamiento del Problema/Referencias_agente_laboratorio.md`
-> 4. Opcional: `pdp.docs` (borrador anterior de la pregunta problema)
+> 3. `docs/referencias.md`
+> 4. Opcional: `docs/02_decisiones.md` (decisiones tomadas después de la Sesión 3)
 >
 > El profesor trabaja por sesiones: diagnostica, explica y propone cambios sección por sección. No reescribe todo el documento de una sola vez.
 

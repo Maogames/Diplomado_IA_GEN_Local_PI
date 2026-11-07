@@ -30,7 +30,7 @@ ese origen a `LAB_CORS_ORIGENES` en el backend.
 | Solicitar préstamo | Formulario con buscador de elementos disponibles |
 | Reportes | Cinco reportes con trazabilidad (quién, cuándo, fuente) y descarga en CSV |
 | Auditoría | Registros con filtros por resultado, canal y acción |
-| Usuarios | Alta, edición, cambio de rol, desactivación y número de WhatsApp |
+| Usuarios | Alta, edición, cambio de rol, desactivación y número de WhatsApp (reservado para el canal futuro) |
 
 El menú y los botones se ocultan según los permisos, pero la autorización real la hace siempre el
 backend.

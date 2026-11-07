@@ -1,5 +1,7 @@
 # Prompt maestro — Módulo 1: planteamiento del problema
 
+> Prompt usado para generar la primera versión de `docs/01_planteamiento_del_problema.md`. Se conserva como herramienta de trabajo; el documento vigente es el del directorio `docs/`.
+
 ---
 
 ## Prompt para copiar y pegar
@@ -154,8 +156,8 @@ Entrega únicamente el documento final en Markdown.
 
 ## Nota de diseño
 
-Este prompt estructura la matriz según las cuatro funciones del núcleo del NIST AI RMF: **GOVERN, MAP, MEASURE y MANAGE**. El marco plantea GOVERN como función transversal, mientras que las otras tres permiten contextualizar, evaluar y tratar los riesgos del sistema de IA de forma iterativa. [web:1][web:3]
+Este prompt estructura la matriz según las cuatro funciones del núcleo del NIST AI RMF: **GOVERN, MAP, MEASURE y MANAGE**. El marco plantea GOVERN como función transversal, mientras que las otras tres permiten contextualizar, evaluar y tratar los riesgos del sistema de IA de forma iterativa.
 
 ## Resultado esperado
 
-Al usarlo, ChatGPT deberá generar un documento de Módulo 1 con una delimitación clara del agente: consulta de guías aprobadas, interacción restringida con una API de inventario y reportes trazables. También deberá excluir acceso institucional general, acciones irreversibles no aprobadas y uso de información fuera de los permisos definidos.
+Al usarlo, el asistente deberá generar un documento de Módulo 1 con una delimitación clara del agente: consulta de guías aprobadas, interacción restringida con una API de inventario y reportes trazables. También deberá excluir acceso institucional general, acciones irreversibles no aprobadas y uso de información fuera de los permisos definidos.

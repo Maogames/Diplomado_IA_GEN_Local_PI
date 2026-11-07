@@ -16,13 +16,13 @@ En el caso del laboratorio universitario, el proyecto identifica la necesidad de
 
 Las dificultades operativas que el proyecto busca atender incluyen la dispersión de guías y procedimientos en distintos documentos o sistemas, la consulta manual de la disponibilidad de recursos, las posibles inconsistencias en el seguimiento del inventario de práctica, la demora en la elaboración de reportes y la falta de trazabilidad sobre consultas y modificaciones.
 
-**Suposición por validar:** el documento del diplomado no describe el procedimiento vigente del laboratorio ni cuantifica estas dificultades. Se presentan como situaciones plausibles que deberán confirmarse mediante levantamiento de información con los responsables del laboratorio.
+**Suposición por validar:** el documento del diplomado no describe el procedimiento vigente del laboratorio ni cuantifica estas dificultades. Se presentan como situaciones plausibles que deberán confirmarse mediante levantamiento de información con los responsables del laboratorio. En la fase actual, el laboratorio es un escenario de referencia definido por el equipo y no un laboratorio institucional identificado; por ello, los datos del inventario son sintéticos.
 
 El entorno del proyecto queda delimitado así: un laboratorio universitario, prácticas académicas, fuentes documentales y una API autorizada, usuarios autorizados con roles definidos, procesamiento local de la información y ausencia de acceso general al sistema institucional. El enfoque *local-first* del diplomado indica que los laboratorios deben poder ejecutarse sin conexión una vez preparado el entorno y que la información de los casos no debe abandonar la infraestructura de práctica cuando el ejercicio exija confidencialidad o control de datos. Esta delimitación es necesaria para proteger la información, reducir la posibilidad de acciones no autorizadas y conservar la supervisión humana.
 
 En consecuencia, el problema no consiste únicamente en crear una interfaz conversacional; el diplomado señala que no se aceptará como producto final una simple interfaz que envíe *prompts* a un modelo. El desafío es diseñar un agente técnico que apoye las actividades del laboratorio sin convertir su capacidad de automatización en un mecanismo de acceso indiscriminado a información o sistemas institucionales.
 
-**Suposición por validar:** el documento del diplomado no especifica la estructura actual de las guías, los endpoints concretos de la API de inventario ni los roles institucionales definitivos. Estos elementos deberán definirse durante las fases de análisis y diseño.
+**Decisión de diseño:** el escenario no cuenta con un sistema de inventario que exponga una API, por lo que el equipo construye la API autorizada de inventario y préstamos, con sus endpoints y roles (sección 7.4). La estructura de las guías se define en el corpus del RAG (sección 7.6). *Suposición por validar:* los roles institucionales definitivos deberán confirmarse con los responsables del laboratorio.
 
 ## 3. Planteamiento del problema
 
@@ -98,6 +98,7 @@ El proyecto no contempla:
 - Ejecución de operaciones irreversibles sin validación humana.
 - Uso de fuentes no autorizadas como si fueran oficiales.
 - Ampliación automática de privilegios del agente técnico.
+- Canales externos de mensajería (por ejemplo, WhatsApp) en el producto mínimo demostrable, porque convertirían la arquitectura en híbrida (sección 7.3).
 
 ### 6.3 Límites operativos y supuestos por validar
 
@@ -105,15 +106,152 @@ El proyecto no contempla:
 - **Disponibilidad de la API:** el agente dependerá de la disponibilidad y calidad de la API. Una falla del servicio no deberá llevarlo a inventar disponibilidad, resultados ni confirmaciones; deberá informar el error y, si corresponde, escalar.
 - **Calidad de las guías:** la exactitud de las respuestas dependerá de que las guías estén vigentes y versionadas. Los documentos del RAG se tratarán como activos de información: se clasifican, autorizan, respaldan y eliminan de manera controlada. *Suposición por validar:* se requiere un responsable del repositorio documental autorizado.
 - **Datos:** durante el desarrollo se emplearán datos públicos, sintéticos, anonimizados o expresamente autorizados, como dispone el diplomado. *Suposición por validar:* la necesidad de tratar datos personales reales (por ejemplo, el solicitante de un préstamo) deberá evaluarse frente a la Ley 1581 de 2012.
-- **Autenticación:** *Suposición por validar:* el mecanismo concreto (por ejemplo, integración con el directorio institucional o cuentas locales del laboratorio) deberá definirse con el área técnica.
+- **Autenticación:** el producto mínimo emplea cuentas locales del laboratorio con contraseña cifrada, rol asignado y token de sesión (sección 7.4). *Suposición por validar:* la integración con el directorio institucional queda fuera del alcance actual y deberá evaluarse con el área técnica.
 - **Auditoría:** los registros deberán conservar usuario, fecha, operación, resultado y aprobación asociada. *Suposición por validar:* el tiempo de retención y su ubicación deberán definirse.
 - **Revisión humana:** *Suposición por validar:* el catálogo de operaciones sensibles que exigirán confirmación deberá acordarse con los responsables del laboratorio.
-- **Solicitudes de préstamo:** *Suposición por validar:* el caso de referencia del diplomado menciona guías, inventario y reportes; el flujo de préstamos se incorpora por necesidad del laboratorio y su procedimiento deberá documentarse.
+- **Solicitudes de préstamo:** el caso de referencia del diplomado menciona guías, inventario y reportes; el flujo de préstamos se incorpora por necesidad del laboratorio y se define con los estados pendiente, aprobado, entregado y devuelto, además de rechazado y cancelado. *Suposición por validar:* el procedimiento deberá contrastarse con el reglamento real del laboratorio.
 - **Componente multimodal:** *Suposición por validar:* el diplomado lo exige sin precisarlo para este caso; podrían considerarse, por ejemplo, el OCR de guías escaneadas o el reconocimiento visual de equipos, según su pertinencia y el hardware disponible.
-- **Hardware:** el modelo local deberá seleccionarse según la capacidad real del equipo disponible (ruta básica, RTX 3050 o servidor compartido).
+- **Hardware:** el modelo local se selecciona según la capacidad real del equipo disponible; el diagnóstico y el cálculo de memoria se presentan en la sección 7.
 - **Gestión de errores:** ante entradas ambiguas, permisos insuficientes o confianza insuficiente en la respuesta, el agente deberá denegar o escalar en lugar de ejecutar.
 
-## 7. Requisitos del sistema
+## 7. Arquitectura preliminar y decisión de procesamiento
+
+Esta sección responde a la evidencia del Módulo 1 del diplomado, que exige una ficha de arquitectura y riesgo con decisión justificada sobre procesamiento local, híbrido o remoto, el diagnóstico de capacidades del equipo y el cálculo básico de requerimientos de memoria y almacenamiento de modelos cuantizados. La arquitectura se diseña para el equipo de menor capacidad disponible, de modo que, si opera en él, pueda reproducirse en cualquier estación de la ruta básica del diplomado.
+
+### 7.1 Diagnóstico de hardware
+
+| Componente | Valor | Observación |
+|---|---|---|
+| Equipo | MacBook Air (Apple M1) | Equipo de desarrollo y de demostración |
+| CPU | Apple M1, 8 núcleos (4 de rendimiento y 4 de eficiencia) | — |
+| GPU | Integrada en el M1, compatible con Metal | Número de núcleos: *Suposición por validar* |
+| Memoria | 8 GB unificada, compartida por CPU, GPU y sistema operativo | Por debajo de los 16 GB recomendados para la ruta básica |
+| Ancho de banda de memoria | ≈ 68 GB/s | Determina la velocidad de generación de tokens |
+| Almacenamiento libre | *Suposición por validar* | Se requieren al menos 10–15 GB libres para modelos, entorno e índices |
+| Sistema operativo | macOS (versión: *Suposición por validar*) | Ollama se ejecuta de forma nativa con aceleración Metal |
+| Refrigeración | Pasiva (sin ventilador) | Posible reducción de rendimiento en sesiones prolongadas |
+| Memoria ocupada por macOS y aplicaciones de trabajo | 3–4 GB estimados | *Suposición por validar*: medir en Monitor de Actividad |
+
+La memoria unificada de 8 GB es la restricción principal. Excluye los modelos de 7B parámetros o más y el uso de contenedores Docker en este equipo, que en macOS no acceden a la GPU y consumen memoria adicional. Por ello, en el perfil mínimo la API se ejecuta con SQLite y sin Docker; la configuración con PostgreSQL en Docker se reserva para los equipos con más memoria o para el servidor del laboratorio.
+
+**Perfiles de hardware del equipo de trabajo.** Otros integrantes disponen de equipos con mayor memoria, que cumplen la ruta básica del diplomado. Se definen dos perfiles: un **perfil mínimo** (MacBook Air M1, 8 GB), sobre el que se valida que el sistema opera con el modelo seleccionado, y un **perfil de demostración**, correspondiente al equipo con mayor capacidad, en el que se ejecutará la sustentación y se evaluará el modelo alternativo. Ambos perfiles se documentarán en el benchmarking del Módulo 2.
+
+| Integrante | Equipo | CPU | RAM | GPU / VRAM | Almacenamiento libre | Sistema operativo |
+|---|---|---|---|---|---|---|
+| Integrante 1 | MacBook Air M1 | Apple M1 (8 núcleos) | 8 GB unificada | Integrada (Metal) | *Por validar* | macOS (*por validar*) |
+| Integrante 2 | *Por validar* | *Por validar* | *Por validar* | *Por validar* | *Por validar* | *Por validar* |
+| Integrante 3 | *Por validar* | *Por validar* | *Por validar* | *Por validar* | *Por validar* | *Por validar* |
+
+### 7.2 Selección del modelo de lenguaje y cálculo de memoria
+
+El proyecto emplea un modelo de lenguaje pequeño (SLM) ejecutado localmente mediante Ollama en formato GGUF con cuantización Q4_K_M. La memoria requerida se estima como la suma de tres componentes: (a) los pesos del modelo, aproximadamente igual al número de parámetros multiplicado por los bits efectivos por peso (≈ 4,85 en Q4_K_M) y dividido entre 8; (b) la caché de claves y valores (KV cache), igual a 2 × capas × cabezas KV × dimensión de cabeza × longitud de contexto × 2 bytes en FP16; y (c) los búferes de ejecución del motor de inferencia. Se adopta una ventana de contexto de 4.096 tokens, suficiente para el mensaje del sistema, las definiciones de herramientas, cuatro fragmentos recuperados, el historial reciente y la respuesta.
+
+| Concepto | Llama 3.2 3B Instruct | Qwen3-4B-Instruct-2507 |
+|---|---|---|
+| Parámetros | 3,21 × 10⁹ | 4,0 × 10⁹ |
+| Cuantización | Q4_K_M | Q4_K_M |
+| Pesos estimados (P × 4,85 / 8) | ≈ 1,95 GB | ≈ 2,4 GB |
+| Tamaño real del archivo en Ollama | 2,0 GB | 2,5 GB |
+| Capas / cabezas KV / dimensión de cabeza | 28 / 8 / 128 | 36 / 8 / 128 |
+| KV cache por token (FP16) | 112 KiB | 144 KiB |
+| KV cache con 4.096 tokens | ≈ 0,47 GB | ≈ 0,60 GB |
+| Búferes de ejecución (*supuesto*) | ≈ 0,4 GB | ≈ 0,4 GB |
+| **Subtotal del modelo** | **≈ 2,9 GB** | **≈ 3,5 GB** |
+| Modelo de embeddings (qwen3-embedding 0,6B, Q8) | 0,64 GB | 0,64 GB |
+| API, interfaz e índice vectorial (*supuesto*) | ≈ 0,4 GB | ≈ 0,4 GB |
+| **Total de la pila de IA** | **≈ 3,9 GB** | **≈ 4,5 GB** |
+| Margen sobre 8 GB con 3–4 GB del sistema | 0,1 a 1,1 GB | −0,5 a 0,5 GB |
+| Velocidad máxima teórica (68 GB/s ÷ pesos) | ≈ 34 tokens/s | ≈ 27 tokens/s |
+| Licencia | Llama 3.2 Community License | Apache 2.0 |
+| Idioma español | Soportado oficialmente | Multilingüe; *a validar en pruebas* |
+| Invocación de herramientas | Sí | Sí |
+
+La velocidad máxima teórica se obtiene porque, en la generación de cada token, el motor debe leer todos los pesos desde memoria; la velocidad real suele ser bastante menor y deberá medirse (`ollama run <modelo> --verbose`, campo *eval rate*).
+
+**Criterio de selección.** Llama 3.2 3B Instruct se propone como modelo principal por ofrecer margen de memoria en el equipo disponible. Qwen3-4B-Instruct-2507 se evaluará como alternativa, con las aplicaciones no esenciales cerradas, por su licencia más permisiva y su orientación a la invocación de herramientas. Qwen3 1.7B (1,4 GB en Q4_K_M) se reserva como respaldo si ninguno de los dos opera con estabilidad. La decisión final se tomará con el benchmarking del Módulo 2 sobre un conjunto fijo de tareas del caso: respuesta con cita, invocación correcta de herramientas y denegación de solicitudes fuera de permiso.
+
+**Modelos descartados.** Los modelos de 7B–8B parámetros (≥ 4,7 GB en Q4_K_M) superan la memoria disponible junto con el sistema operativo. Qwen2.5-3B-Instruct se descarta por su licencia *qwen-research*, más restrictiva que la de los candidatos.
+
+### 7.3 Decisión de procesamiento: local, híbrido o remoto
+
+| Criterio | Local | Híbrido (modelo local, canal o servicio externo) | Remoto (modelo en la nube) |
+|---|---|---|---|
+| Datos del solicitante de un préstamo (Ley 1581 de 2012) | Permanecen en el equipo | Circulan por un tercero; exige autorización y evaluación | Se transfieren a un proveedor externo |
+| Operación sin Internet (CS-10) | Sí | No | No |
+| Costo de operación | Ninguno adicional | Depende del servicio | Pago por uso |
+| Exigencia del diplomado (LLM/SLM local) | Cumple | Cumple si el modelo es local | Requiere excepción sustentada |
+| Calidad del modelo | Limitada por 8 GB | Limitada por 8 GB | Mayor |
+| Complejidad de integración | Baja | Media–alta | Media |
+
+**Decisión:** procesamiento **local**. La totalidad de los componentes —interfaz, agente, modelo, índice documental, API de inventario y registros— se ejecuta en el equipo descrito en 7.1. La conexión a Internet se emplea únicamente durante la preparación del entorno para descargar modelos y paquetes. La menor calidad de un modelo pequeño se compensa con recuperación documental con citas, un número reducido de herramientas y validación de cada invocación en el orquestador y en la API. Un canal externo de mensajería, como WhatsApp, queda fuera del producto mínimo porque convertiría la arquitectura en híbrida y obligaría a reformular RNF-03, CS-10 y R-06; se registra como mejora futura.
+
+### 7.4 Componentes de la arquitectura
+
+| Componente | Tecnología | Función | Estado |
+|---|---|---|---|
+| Interfaz de usuario | Panel web en React + Vite, sin librerías de interfaz ni fuentes remotas | Pantallas por rol (inventario, préstamos, reportes, auditoría y usuarios) y vista de conversación con el agente | Panel implementado; vista de conversación pendiente |
+| Autenticación | Cuentas locales con contraseña cifrada (PBKDF2-SHA256), rol asignado y token JWT; bloqueo temporal tras intentos fallidos | Identificar al usuario y su rol en cada solicitud | Implementada |
+| Orquestador del agente | Python con la API de chat y herramientas de Ollama | Construir el contexto, validar y ejecutar las invocaciones permitidas | Pendiente |
+| Modelo de lenguaje | Llama 3.2 3B Instruct, Q4_K_M, en Ollama | Interpretar la solicitud, decidir la herramienta y redactar la respuesta | Seleccionado; pendiente del benchmarking del Módulo 2 |
+| Recuperación documental (RAG) | qwen3-embedding 0,6B + Chroma (persistente, local) | Recuperar fragmentos del corpus autorizado con su fuente y versión | Pendiente |
+| API de inventario y préstamos | FastAPI + SQLAlchemy; SQLite en desarrollo y PostgreSQL en el servidor; datos sintéticos | Consultar el inventario, registrar movimientos y gestionar el ciclo del préstamo; validar el rol en cada llamada | Implementada, con pruebas automatizadas |
+| Registro de auditoría | Tabla de auditoría de la API | Conservar usuario, canal, operación, resultado, identificador de la petición y fecha, incluidas las denegaciones y los errores | Implementado en la API; falta registrar las invocaciones del agente |
+| Componente multimodal | Por definir (sección 6.3) | — | Pendiente |
+
+El orquestador expone al modelo una lista cerrada de herramientas: `buscar_guias`, `consultar_equipo`, `crear_solicitud_prestamo` (crea la solicitud en estado *pendiente*), `consultar_mis_solicitudes` y `generar_reporte` (solo para los roles con permiso de reportes en la API). La aprobación de un préstamo no es una herramienta del agente: la realiza el técnico o el docente responsable de la práctica desde el panel web, que invoca directamente la API, y nadie puede aprobar su propia solicitud. De este modo, la supervisión humana sobre las operaciones de escritura (RSG-04) queda garantizada por el diseño y no depende del comportamiento del modelo. Se prefiere un orquestador propio y breve sobre marcos como LangChain o LangGraph para reducir dependencias, consumo de memoria y superficie de la cadena de suministro (R-11); estos marcos se consideran alternativas equivalentes si el alcance crece.
+
+### 7.5 Mapa de flujo de datos
+
+```mermaid
+flowchart LR
+    U["Usuario<br/>estudiante · docente · técnico"]
+    subgraph MAC["MacBook Air M1 · 8 GB · operación sin Internet"]
+        UI["Panel web React<br/>login por rol"]
+        AG["Orquestador del agente<br/>Python"]
+        LLM["SLM local<br/>Ollama · Q4_K_M"]
+        RAG[("Índice vectorial<br/>Chroma")]
+        DOCS["Corpus autorizado<br/>reglamento · guías · fichas<br/>versionado en Git"]
+        API["API de inventario y préstamos<br/>FastAPI + SQLite"]
+        LOG[("Registro de auditoría")]
+    end
+    U -->|"pregunta o solicitud"| UI
+    UI --> AG
+    AG <-->|"contexto y respuesta"| LLM
+    AG -->|"buscar_guias"| RAG
+    DOCS -->|"ingesta de versiones vigentes"| RAG
+    AG -->|"consultar_equipo · crear_solicitud"| API
+    UI -->|"aprobar o rechazar · técnico o docente"| API
+    AG --> LOG
+    API --> LOG
+```
+
+| Dato | Origen → destino | ¿Sale del equipo? |
+|---|---|---|
+| Pregunta o solicitud del usuario | Usuario → interfaz → orquestador → modelo | No |
+| Fragmentos de guías y reglamento | Índice vectorial → orquestador → modelo | No |
+| Datos de equipos y solicitudes | API → orquestador → modelo / interfaz | No |
+| Identificación del solicitante | Interfaz → API (SQLite) | No |
+| Registros de auditoría | Orquestador y API → registro | No |
+| Modelos y paquetes | Internet → equipo, solo en la preparación del entorno | Es una entrada única; no sale información del laboratorio |
+
+### 7.6 Corpus del RAG
+
+| Documento | Contenido | Formato | Aprobación | Origen |
+|---|---|---|---|---|
+| Reglamento de préstamo de equipos | Condiciones, plazos, devolución y responsabilidades | Markdown | Coordinación del laboratorio | Sintético, redactado por el equipo |
+| Guías de práctica (3 a 5) | Objetivo, equipos requeridos, procedimiento y precauciones | Markdown o PDF | Docente responsable | Sintéticas o adaptadas de guías públicas con licencia compatible |
+| Fichas técnicas de equipos (5 a 10) | Especificaciones, uso y cuidados | Markdown | Técnico de laboratorio | Sintéticas o tomadas de manuales públicos del fabricante |
+| Normas de seguridad del laboratorio | Elementos de protección, prohibiciones y emergencias | Markdown | Coordinación del laboratorio | Sintéticas |
+
+Cada documento incluirá un encabezado con identificador, versión, fecha, responsable de aprobación y estado (*vigente* u *obsoleto*); solo los documentos vigentes se indexan, y el historial se conserva en el repositorio Git. La fragmentación se realizará por sección del documento, de modo que cada cita remita a documento, versión y sección.
+
+**RAG frente a ajuste fino.** Se adopta RAG y no ajuste fino del modelo por cuatro razones: el conocimiento del laboratorio cambia (reglamentos y versiones de guías) y debe actualizarse sin reentrenar; cada respuesta debe citar su fuente, lo que el ajuste fino no proporciona; el corpus es pequeño; y el equipo disponible no admite un entrenamiento eficiente con garantías. La recuperación aumentada separa el conocimiento, que reside en documentos versionados y auditables, de la capacidad lingüística del modelo (Lewis et al., 2020).
+
+### 7.7 Interfaz y canal de interacción
+
+La interacción se realiza mediante un panel web local desarrollado en React y Vite, que funciona sin Internet una vez instalado porque no depende de librerías de interfaz ni de fuentes remotas. Cada rol ve únicamente las pantallas y acciones que le corresponden, aunque la autorización se valida siempre en la API. El técnico y el docente responsable disponen de bandejas con las solicitudes por aprobar y de los controles para aprobarlas o rechazarlas. La vista de conversación con el agente se incorporará al mismo panel. Streamlit, considerado en la propuesta inicial, se reemplazó por este panel (véase el registro de decisiones del repositorio). Open WebUI y AnythingLLM se descartan como interfaz final por su consumo de memoria en un equipo de 8 GB, y los canales externos de mensajería quedan como mejora futura por las razones expuestas en 7.3.
+
+## 8. Requisitos del sistema
 
 | ID | Tipo | Requisito | Prioridad | Criterio de verificación | Relación con el riesgo |
 |---|---|---|---|---|---|
@@ -132,9 +270,9 @@ El proyecto no contempla:
 | RSG-05 | Seguridad/gobierno | Tratar el contenido de documentos y entradas como datos, no como instrucciones | Alta | Pruebas de *prompt injection* con documentos adversariales | R-09 |
 | RSG-06 | Seguridad/gobierno | Registrar versión, fuente, licencia y hash de modelos y dependencias, y no almacenar secretos en repositorios | Media | Revisión del manifiesto de modelos y escaneo del repositorio | R-11 |
 
-Estos requisitos constituyen condiciones de aceptación del futuro sistema y no evidencias de funcionalidades implementadas.
+Estos requisitos constituyen condiciones de aceptación del sistema. Su estado de implementación y las pruebas que los verifican se registran en el documento de trazabilidad del repositorio (`docs/03_trazabilidad.md`).
 
-## 8. Matriz de riesgos — NIST AI RMF
+## 9. Matriz de riesgos — NIST AI RMF
 
 El diplomado adopta el NIST AI Risk Management Framework 1.0 como referente operativo y el perfil NIST AI 600-1 para los riesgos propios de la IA generativa (NIST, 2023, 2024). La matriz se organiza según sus cuatro funciones: **GOVERN, MAP, MEASURE y MANAGE**. GOVERN establece responsabilidades y políticas de manera transversal a todo el ciclo de vida; MAP contextualiza el sistema, sus usuarios, datos, impactos, amenazas y dependencias; MEASURE evalúa los riesgos mediante pruebas y métricas; y MANAGE prioriza e implementa su tratamiento mediante mitigaciones, límites de autonomía, controles, *rollback*, monitoreo y mejora. Cada riesgo se asigna a la función desde la cual se gestiona principalmente, aunque todos atraviesan las cuatro.
 
@@ -156,11 +294,11 @@ El diplomado adopta el NIST AI Risk Management Framework 1.0 como referente oper
 
 La matriz no se considera exhaustiva y deberá actualizarse en las fases posteriores. Los controles se alinean con las recomendaciones de seguridad del diplomado: aislar los agentes que ejecuten herramientas, limitar directorios, comandos, redes y credenciales, y realizar pruebas de *prompt injection*, fuga de datos y *tool misuse* antes de la demostración final. Ningún riesgo residual se considera nulo.
 
-### 8.1 GOVERN
+### 9.1 GOVERN
 
 La función GOVERN establecerá los responsables de cada riesgo, una política de uso aceptable del agente técnico, la propiedad de los datos documentales y del inventario de práctica, y la aplicación del principio de mínimo privilegio. Conforme al diplomado, incluirá también el inventario de modelos y sus licencias, la supervisión y la documentación del sistema mediante ficha de modelo (*model card*), ficha de datos (*data card*) y esta matriz. Contemplará la formación de los usuarios autorizados sobre los alcances y límites del agente, la rendición de cuentas sobre las aprobaciones, un procedimiento de gestión de incidentes y la revisión periódica de la matriz.
 
-### 8.2 MAP
+### 9.2 MAP
 
 MAP caracterizará el propósito del agente técnico, los usuarios autorizados, las fuentes autorizadas, los flujos de información entre usuario, agente, repositorio documental y API, las decisiones que el agente solo asiste, sus dependencias y las amenazas identificadas. Identificará los límites de automatización, las operaciones que requieren intervención humana y las personas que podrían verse afectadas por errores, por ejemplo, estudiantes a quienes se niega o asigna un recurso. En línea con las prácticas del Módulo 1 del diplomado, MAP incluye la clasificación de la sensibilidad de la información y la decisión sobre su procesamiento:
 
@@ -174,7 +312,7 @@ MAP caracterizará el propósito del agente técnico, los usuarios autorizados, 
 
 **Suposición por validar:** los niveles de sensibilidad son una propuesta inicial y deberán confirmarse con los responsables del laboratorio.
 
-### 8.3 MEASURE
+### 9.3 MEASURE
 
 La evaluación considerará, como mínimo, los siguientes indicadores:
 
@@ -188,11 +326,11 @@ La evaluación considerará, como mínimo, los siguientes indicadores:
 | Tasa de solicitudes fuera de alcance correctamente escaladas | Por definir en la fase de validación |
 | Resultados de pruebas de permisos, *prompt injection*, fuga de datos y *tool misuse* | A validar con el plan de pruebas |
 
-### 8.4 MANAGE
+### 9.4 MANAGE
 
 La gestión de riesgos contemplará cinco respuestas: **prevenir** (no habilitar capacidades fuera del alcance), **mitigar** (controles técnicos y de aprobación), **transferir** cuando aplique (por ejemplo, la disponibilidad de la API al área que la administra), **aceptar de forma documentada** los riesgos residuales y **detener o escalar** la operación. Ante anomalías en operaciones sensibles, el sistema deberá suspender dichas operaciones, revertir los cambios cuando sea posible, revocar o rotar las credenciales comprometidas, informar a los responsables y corregir las guías, permisos o reglas que originaron el incidente antes de reanudar el servicio. Siguiendo el criterio del Módulo 7 del diplomado, una función cuya seguridad o calidad no pueda demostrarse deberá retirarse o limitarse en lugar de ocultar su incertidumbre.
 
-## 9. Criterios de éxito
+## 10. Criterios de éxito
 
 | ID | Criterio de éxito | Indicador o evidencia | Meta o condición de aceptación | Método de validación | Responsable de validación |
 |---|---|---|---|---|---|
@@ -210,7 +348,7 @@ La gestión de riesgos contemplará cinco respuestas: **prevenir** (no habilitar
 
 Los umbrales cuantitativos específicos quedan **por definir en la fase de validación**, ya que el documento del diplomado no establece valores concretos para este agente técnico.
 
-## 10. Conclusión del Módulo 1
+## 11. Conclusión del Módulo 1
 
 El proyecto plantea un agente técnico orientado a apoyar las actividades de un laboratorio universitario mediante tres capacidades principales: la consulta de guías autorizadas, la interacción controlada con el inventario de práctica mediante una API autorizada y la generación de reportes trazables, complementadas con el apoyo a solicitudes de préstamo y demás procedimientos autorizados.
 
@@ -220,10 +358,12 @@ Este documento constituye la base de la evidencia del Módulo 1, la ficha de arq
 
 ## Referencias
 
-Las siguientes referencias corresponden a las citadas en el documento del diplomado; sus datos bibliográficos completos deberán tomarse de dicho documento.
+- Congreso de Colombia. (2012). *Ley Estatutaria 1581 de 2012, por la cual se dictan disposiciones generales para la protección de datos personales*.
+- Corporación Universitaria Comfacauca. (2026). *Diplomado en Inteligencia Artificial Generativa Local, Agentes Autónomos y Sistemas Multimodales (IA 5.0 Lab)* [Documento del programa].
+- Departamento Nacional de Planeación [DNP]. (2025). *Política Nacional de Inteligencia Artificial* (Documento CONPES 4144). https://normograma.mintic.gov.co/mintic/compilacion/docs/conpes_dnp_4144_2025.htm
+- Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., Küttler, H., Lewis, M., Yih, W., Rocktäschel, T., Riedel, S., & Kiela, D. (2020). Retrieval-augmented generation for knowledge-intensive NLP tasks. *Advances in Neural Information Processing Systems, 33*, 9459–9474. https://arxiv.org/abs/2005.11401
+- National Institute of Standards and Technology [NIST]. (2023). *Artificial intelligence risk management framework (AI RMF 1.0)* (NIST AI 100-1). https://doi.org/10.6028/NIST.AI.100-1
+- National Institute of Standards and Technology [NIST]. (2024). *Artificial intelligence risk management framework: Generative artificial intelligence profile* (NIST AI 600-1). https://doi.org/10.6028/NIST.AI.600-1
+- UNESCO. (2021). *Recomendación sobre la ética de la inteligencia artificial*. UNESCO.
 
-- Congreso de Colombia. (2012). *Ley 1581 de 2012*.
-- Departamento Nacional de Planeación [DNP]. (2025). *Documento CONPES 4144 — Política Nacional de Inteligencia Artificial*.
-- NIST. (2023). *AI Risk Management Framework (AI RMF 1.0)*.
-- NIST. (2024). *NIST AI 600-1: perfil de IA generativa del AI RMF*.
-- UNESCO. (2021). *Recomendación sobre la Ética de la Inteligencia Artificial*.
+La bibliografía de apoyo del proyecto se encuentra en `docs/referencias.md`.

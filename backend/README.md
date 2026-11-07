@@ -74,6 +74,8 @@ El stock disponible se descuenta al **entregar** (cuando el elemento sale físic
 
 ## Decisiones relacionadas con la matriz de riesgos
 
+Los riesgos (R-xx) se definen en `docs/01_planteamiento_del_problema.md`, sección 9; la cobertura por requisito está en `docs/03_trazabilidad.md`.
+
 | Control | Dónde | Riesgo |
 |---|---|---|
 | Toda variación de stock pasa por un único servicio que bloquea la fila y guarda el saldo resultante | `services/inventario.py` | R-04 |
@@ -104,6 +106,8 @@ El stock disponible se descuenta al **entregar** (cuando el elemento sale físic
 
 - Migraciones con Alembic (hoy las tablas se crean al iniciar con `LAB_CREAR_TABLAS_AL_INICIAR=true`).
 - Autenticación del agente: credencial de servicio propia que actúe *en nombre de* un usuario
-  identificado por su número de WhatsApp, sin superar los permisos de ese usuario.
-- Redis para historial de conversación y códigos OTP del canal de WhatsApp.
+  identificado, sin superar los permisos de ese usuario.
 - Registro de guías autorizadas (título, versión, vigencia) para el RAG.
+
+Mejora futura, fuera del producto mínimo (`docs/02_decisiones.md`, D-07): canal de WhatsApp, con el
+usuario identificado por su número y Redis para el historial de conversación y los códigos OTP.
